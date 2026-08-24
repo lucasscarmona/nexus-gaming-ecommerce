@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Gaming Gear - Protótipo Front-end</title>
+    <!-- Tailwind CSS para estilização rápida e moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para o gráfico do painel ADM -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nexus: {
+                            dark: '#0f172a',
+                            darker: '#020617',
+                            green: '#22c55e',
+                            purple: '#a855f7',
+                            gray: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@500;700&display=swap');
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .nav-link.active {
+            border-bottom: 2px solid #22c55e;
+            color: #22c55e;
+        }
+
+        /* Estilo do scrollbar para manter o tema escuro */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+
+        /* Animação suave para o chatbot */
+        #chatbot-window { transition: all 0.3s ease-in-out; }
+        .hidden-view { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans">
+
+<!-- NAVBAR TOP -->
+<nav class="bg-nexus-dark border-b border-nexus-gray sticky top-0 z-50 shadow-lg shadow-black/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="switchView('loja')">
+                <i class="fa-solid fa-gamepad text-nexus-green text-2xl"></i>
+                <span class="font-display font-bold text-2xl tracking-wider text-white">NEXUS <span class="text-nexus-purple">GEAR</span></span>
+            </div>
+            <div class="hidden md:block">
+                <div class="ml-10 flex items-baseline space-x-8">
+                    <a href="#" onclick="switchView('loja', this)" class="nav-link active px-3 py-2 font-medium hover:text-nexus-green transition-colors">Loja</a>
+                    <a href="#" onclick="switchView('checkout', this)" class="nav-link px-3 py-2 font-medium hover:text-nexus-green transition-colors">Carrinho / Checkout</a>
+                    <a href="#" onclick="switchView('cliente', this)" class="nav-link px-3 py-2 font-medium hover:text-nexus-green transition-colors">Área do Cliente</a>
+                    <a href="#" onclick="switchView('adm', this)" class="nav-link px-3 py-2 font-medium text-nexus-purple hover:text-white transition-colors border border-nexus-purple rounded-md">Painel ADM</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT AREA -->
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 relative">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: LOJA (VITRINE) -->
+    <!-- ========================================== -->
+    <section id="view-loja" class="view-section">
+        <div class="mb-8">
+            <h1 class="font-display text-4xl font-bold mb-2">Equipamentos de <span class="text-nexus-green">Alta Performance</span></h1>
+            <p class="text-gray-400">Eleve sua gameplay com periféricos de nível profissional.</p>
+        </div>
+
+        <!-- Grid de Produtos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Produto 1 -->
+            <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+                <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
+                    <i class="fa-solid fa-keyboard text-6xl text-gray-500"></i>
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-semibold tracking-wider text-nexus-purple uppercase">Teclado Mecânico</span>
+                    <h3 class="text-xl font-bold mt-1">Nexus Strike Pro RGB</h3>
+                    <p class="text-gray-400 text-sm mt-2 mb-4">Switches lineares ópticos, tempo de resposta 0.2ms.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-nexus-green">R$ 899,00</span>
+                        <button onclick="switchView('checkout')" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Produto 2 -->
+            <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+                <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
+                    <i class="fa-solid fa-computer-mouse text-6xl text-gray-500"></i>
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-semibold tracking-wider text-nexus-purple uppercase">Mouse Wireless</span>
+                    <h3 class="text-xl font-bold mt-1">Nexus AimBot UltraLight</h3>
+                    <p class="text-gray-400 text-sm mt-2 mb-4">Sensor 30K DPI, apenas 55g. Bateria para 80h.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-nexus-green">R$ 649,00</span>
+                        <button onclick="switchView('checkout')" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Produto 3 -->
+            <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+                <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
+                    <i class="fa-solid fa-headset text-6xl text-gray-500"></i>
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-semibold tracking-wider text-nexus-purple uppercase">Headset 7.1</span>
+                    <h3 class="text-xl font-bold mt-1">Nexus Echo Surround</h3>
+                    <p class="text-gray-400 text-sm mt-2 mb-4">Drivers de 50mm, áudio espacial e microfone flip-to-mute.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-nexus-green">R$ 720,00</span>
+                        <button onclick="switchView('checkout')" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors">Comprar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: CHECKOUT & PAGAMENTO MÚLTIPLO -->
+    <!-- ========================================== -->
+    <section id="view-checkout" class="view-section hidden-view">
+        <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-gray pb-2"><i class="fa-solid fa-cart-shopping text-nexus-green mr-2"></i> Finalizar Pedido</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Coluna Esquerda: Itens e Endereço -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Endereços -->
+                <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Endereço de Entrega</h2>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 bg-slate-800 p-3 rounded cursor-pointer border border-nexus-green">
+                            <input type="radio" name="address" checked class="form-radio text-nexus-green focus:ring-nexus-green h-4 w-4">
+                            <div>
+                                <p class="font-medium">Casa - Rua das Flores, 123</p>
+                                <p class="text-sm text-gray-400">CEP: 01234-567 - São Paulo, SP</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center space-x-3 bg-slate-800 p-3 rounded cursor-pointer border border-transparent hover:border-gray-500">
+                            <input type="radio" name="address" class="form-radio text-nexus-green focus:ring-nexus-green h-4 w-4">
+                            <div>
+                                <p class="font-medium">Trabalho - Av Paulista, 1000 - Sala 45</p>
+                                <p class="text-sm text-gray-400">CEP: 01310-100 - São Paulo, SP</p>
+                            </div>
+                        </label>
+                    </div>
+                    <button class="mt-4 text-sm text-nexus-green hover:underline"><i class="fa-solid fa-plus mr-1"></i> Inserir novo endereço</button>
+                </div>
+
+                <!-- Resumo do Carrinho -->
+                <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Itens no Carrinho</h2>
+                    <div class="flex items-center justify-between border-b border-nexus-gray pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-slate-800 rounded flex items-center justify-center"><i class="fa-solid fa-keyboard text-2xl"></i></div>
+                            <div>
+                                <p class="font-bold">Nexus Strike Pro RGB</p>
+                                <p class="text-sm text-gray-400">Qtd: 1</p>
+                            </div>
+                        </div>
+                        <span class="font-bold">R$ 899,00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Pagamento e Total -->
+            <div class="space-y-6">
+                <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Pagamento</h2>
+
+                    <!-- Cupom -->
+                    <div class="mb-4">
+                        <label class="block text-sm mb-1 text-gray-400">Cupom de Troca/Promocional</label>
+                        <div class="flex gap-2">
+                            <input type="text" placeholder="EX: TROCA150" class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                            <button class="bg-nexus-gray px-4 rounded hover:bg-slate-600">Aplicar</button>
+                        </div>
+                    </div>
+
+                    <!-- Múltiplos Cartões -->
+                    <div class="mb-4">
+                        <label class="block text-sm mb-2 text-gray-400">Cartões de Crédito (Split)</label>
+
+                        <!-- Cartão 1 -->
+                        <div class="bg-slate-800 p-3 rounded mb-2 border-l-4 border-nexus-green flex justify-between items-center">
+                            <div>
+                                <p class="text-sm font-medium"><i class="fa-brands fa-cc-mastercard mr-1"></i> Final 4321</p>
+                            </div>
+                            <input type="text" value="R$ 500,00" class="w-24 bg-nexus-dark border border-nexus-gray rounded p-1 text-right text-sm">
+                        </div>
+
+                        <!-- Cartão 2 -->
+                        <div class="bg-slate-800 p-3 rounded mb-2 border-l-4 border-nexus-purple flex justify-between items-center">
+                            <div>
+                                <p class="text-sm font-medium"><i class="fa-brands fa-cc-visa mr-1"></i> Final 9876</p>
+                            </div>
+                            <input type="text" value="R$ 399,00" class="w-24 bg-nexus-dark border border-nexus-gray rounded p-1 text-right text-sm">
+                        </div>
+
+                        <button class="w-full mt-2 text-sm text-center text-nexus-green hover:underline border border-dashed border-nexus-gray rounded py-2"><i class="fa-solid fa-plus mr-1"></i> Adicionar Novo Cartão / Dividir Pagamento</button>
+                    </div>
+
+                    <!-- Total -->
+                    <div class="border-t border-nexus-gray pt-4 mt-6">
+                        <div class="flex justify-between mb-2"><span class="text-gray-400">Subtotal</span><span>R$ 899,00</span></div>
+                        <div class="flex justify-between mb-2"><span class="text-gray-400">Frete</span><span class="text-nexus-green">Grátis</span></div>
+                        <div class="flex justify-between text-xl font-bold mt-4"><span>Total</span><span>R$ 899,00</span></div>
+                    </div>
+
+                    <button onclick="alert('Pedido Realizado com Sucesso!')" class="w-full bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-3 px-4 rounded mt-6 transition-colors text-lg uppercase tracking-wider">Confirmar Pedido</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: ÁREA DO CLIENTE -->
+    <!-- ========================================== -->
+    <section id="view-cliente" class="view-section hidden-view">
+        <div class="flex justify-between items-end mb-6 border-b border-nexus-gray pb-2">
+            <h1 class="font-display text-3xl font-bold"><i class="fa-solid fa-user text-nexus-purple mr-2"></i> Perfil e Pedidos</h1>
+            <div class="space-x-2">
+                <button class="bg-slate-800 hover:bg-slate-700 text-sm py-1 px-3 rounded border border-nexus-gray">Alterar Dados</button>
+                <button class="bg-red-900/50 text-red-400 hover:bg-red-900 text-sm py-1 px-3 rounded border border-red-800">Inativar Conta</button>
+            </div>
+        </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg flex items-center justify-between">
+                <span>Meus Pedidos Recentes</span>
+                <span class="text-sm font-normal text-gray-400"><i class="fa-solid fa-ticket text-nexus-green"></i> Saldo de Cupons: R$ 0,00</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-nexus-dark text-gray-400 text-sm uppercase">
+                        <th class="p-4 border-b border-nexus-gray">Pedido</th>
+                        <th class="p-4 border-b border-nexus-gray">Data</th>
+                        <th class="p-4 border-b border-nexus-gray">Status</th>
+                        <th class="p-4 border-b border-nexus-gray text-right">Ações Disponíveis (UX)</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                    <!-- Pedido 1: Aberto -->
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1024</td>
+                        <td class="p-4 border-b border-nexus-gray text-gray-300">Hoje, 10:45</td>
+                        <td class="p-4 border-b border-nexus-gray">
+                            <span class="bg-yellow-900/50 text-yellow-400 border border-yellow-700 px-2 py-1 rounded-full text-xs font-semibold">Em Processamento</span>
+                        </td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="text-red-400 hover:underline"><i class="fa-solid fa-xmark mr-1"></i> Cancelar Pedido</button>
+                        </td>
+                    </tr>
+                    <!-- Pedido 2: Em Trânsito -->
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1015</td>
+                        <td class="p-4 border-b border-nexus-gray text-gray-300">18/08/2026</td>
+                        <td class="p-4 border-b border-nexus-gray">
+                            <span class="bg-blue-900/50 text-blue-400 border border-blue-700 px-2 py-1 rounded-full text-xs font-semibold">Em Trânsito</span>
+                        </td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="text-nexus-green hover:underline font-semibold border border-nexus-green px-3 py-1 rounded"><i class="fa-solid fa-check mr-1"></i> Confirmar Recebimento</button>
+                        </td>
+                    </tr>
+                    <!-- Pedido 3: Entregue (Permite Troca) -->
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-0988</td>
+                        <td class="p-4 border-b border-nexus-gray text-gray-300">02/08/2026</td>
+                        <td class="p-4 border-b border-nexus-gray">
+                            <span class="bg-green-900/50 text-green-400 border border-green-700 px-2 py-1 rounded-full text-xs font-semibold">Entregue</span>
+                        </td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="text-gray-300 hover:text-white hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Solicitar Troca</button>
+                        </td>
+                    </tr>
+                    <!-- Pedido 4: Troca Aceita (Precisa enviar) -->
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-0940</td>
+                        <td class="p-4 border-b border-nexus-gray text-gray-300">15/07/2026</td>
+                        <td class="p-4 border-b border-nexus-gray">
+                            <span class="bg-purple-900/50 text-purple-400 border border-purple-700 px-2 py-1 rounded-full text-xs font-semibold">Troca Aceita</span>
+                        </td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="text-nexus-purple hover:underline border border-nexus-purple px-3 py-1 rounded"><i class="fa-solid fa-box-open mr-1"></i> Informar Despacho</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: PAINEL ADMINISTRADOR (BACKOFFICE) -->
+    <!-- ========================================== -->
+    <section id="view-adm" class="view-section hidden-view">
+        <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-purple pb-2 text-nexus-purple"><i class="fa-solid fa-hammer mr-2"></i> Backoffice ADM</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Gráfico de Análise (Chart.js) -->
+            <div class="lg:col-span-2 bg-nexus-dark border border-nexus-gray p-4 rounded-xl">
+                <h3 class="text-lg font-semibold mb-4">Gráfico de Análise (Vendas)</h3>
+                <div class="relative h-64 w-full">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            <!-- Resumo Rápido -->
+            <div class="bg-nexus-dark border border-nexus-gray p-4 rounded-xl flex flex-col justify-center gap-4">
+                <div class="bg-slate-800 p-4 rounded border-l-4 border-nexus-green">
+                    <p class="text-gray-400 text-sm">Faturamento Mês</p>
+                    <p class="text-2xl font-bold text-white">R$ 142.590,00</p>
+                </div>
+                <div class="bg-slate-800 p-4 rounded border-l-4 border-nexus-purple">
+                    <p class="text-gray-400 text-sm">Trocas Pendentes</p>
+                    <p class="text-2xl font-bold text-white">12 solicitações</p>
+                </div>
+                <button class="w-full border border-nexus-gray hover:bg-slate-800 py-2 rounded text-sm mt-2"><i class="fa-solid fa-users mr-1"></i> Consultar Base de Clientes</button>
+            </div>
+        </div>
+
+        <!-- Esteira de Status ADM -->
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg">
+                Gestão de Pedidos (Alteração de Status)
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-nexus-dark text-gray-400 text-sm uppercase">
+                        <th class="p-4 border-b border-nexus-gray">Pedido</th>
+                        <th class="p-4 border-b border-nexus-gray">Cliente</th>
+                        <th class="p-4 border-b border-nexus-gray">Status Atual</th>
+                        <th class="p-4 border-b border-nexus-gray text-right">Ação Administrativa</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                    <tr>
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1025</td>
+                        <td class="p-4 border-b border-nexus-gray">Lucas Carmona</td>
+                        <td class="p-4 border-b border-nexus-gray"><span class="bg-yellow-900/50 text-yellow-400 border border-yellow-700 px-2 py-1 rounded-full text-xs font-semibold">Pagamento Realizado</span></td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <select class="bg-slate-800 border border-nexus-gray text-white text-sm rounded p-1 mr-2 focus:border-nexus-green outline-none">
+                                <option>Mover para EM TRÂNSITO</option>
+                                <option>Cancelar</option>
+                            </select>
+                            <button class="bg-nexus-green text-nexus-darker px-3 py-1 rounded font-bold hover:bg-green-400">Aplicar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1026</td>
+                        <td class="p-4 border-b border-nexus-gray">Fernando Camargo</td>
+                        <td class="p-4 border-b border-nexus-gray"><span class="bg-purple-900/50 text-purple-400 border border-purple-700 px-2 py-1 rounded-full text-xs font-semibold">Troca Solicitada</span></td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <select class="bg-slate-800 border border-nexus-gray text-white text-sm rounded p-1 mr-2 focus:border-nexus-purple outline-none">
+                                <option>Aceitar Troca</option>
+                                <option>Negar Troca</option>
+                            </select>
+                            <button class="bg-nexus-purple text-white px-3 py-1 rounded font-bold hover:bg-purple-500">Aplicar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1027</td>
+                        <td class="p-4 border-b border-nexus-gray">Maria Souza</td>
+                        <td class="p-4 border-b border-nexus-gray"><span class="bg-blue-900/50 text-blue-400 border border-blue-700 px-2 py-1 rounded-full text-xs font-semibold">Item Recebido (Devolução)</span></td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="bg-blue-600 text-white px-3 py-1 rounded font-bold hover:bg-blue-500"><i class="fa-solid fa-rotate-left mr-1"></i> Processar Troca (Gerar Cupom)</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ========================================== -->
+<!-- WIDGET CHATBOT IA (Interação Recomendação) -->
+<!-- ========================================== -->
+<div id="chatbot-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <!-- Janela do Chat (Escondida por padrão) -->
+    <div id="chatbot-window" class="bg-nexus-dark border border-nexus-green rounded-lg w-80 shadow-[0_0_20px_rgba(34,197,94,0.2)] mb-4 hidden-view overflow-hidden">
+        <div class="bg-nexus-green text-nexus-darker p-3 font-bold flex justify-between items-center">
+            <span><i class="fa-solid fa-robot mr-2"></i> Nexus AI Assist</span>
+            <button onclick="toggleChatbot()" class="hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="p-4 h-64 overflow-y-auto bg-slate-900 flex flex-col gap-3 text-sm">
+            <div class="bg-slate-800 p-2 rounded-lg rounded-tl-none self-start max-w-[85%] border border-nexus-gray">
+                Olá! Vi que você está olhando o <strong>Teclado Nexus Strike Pro</strong>. Sabia que ele combina perfeitamente com nossos Mousepads Extended RGB?
+            </div>
+            <!-- Card de recomendação no chat -->
+            <div class="bg-nexus-darker border border-nexus-green p-2 rounded-lg self-start w-full">
+                <div class="flex gap-2">
+                    <div class="w-12 h-12 bg-slate-800 flex items-center justify-center rounded"><i class="fa-solid fa-rug text-nexus-green"></i></div>
+                    <div>
+                        <p class="font-bold text-xs">Mousepad Nexus Glow</p>
+                        <p class="text-nexus-green font-bold text-xs">R$ 150,00</p>
+                        <button class="mt-1 text-[10px] bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 border-t border-nexus-gray bg-nexus-dark flex">
+            <input type="text" placeholder="Pergunte sobre produtos..." class="w-full bg-slate-800 text-sm p-2 rounded-l focus:outline-none">
+            <button class="bg-nexus-green text-nexus-darker px-3 rounded-r"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Botão Flutuante -->
+    <button onclick="toggleChatbot()" class="bg-nexus-green hover:bg-green-400 text-nexus-darker w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-transform hover:scale-110">
+        <i class="fa-solid fa-robot text-2xl"></i>
+    </button>
+</div>
+
+<!-- SCRIPTS DE NAVEGAÇÃO E GRÁFICOS -->
+<script>
+    // Lógica de navegação entre as telas (SPA Simples)
+    function switchView(viewId, navElement = null) {
+        // Esconde todas as seções
+        document.querySelectorAll('.view-section').forEach(el => {
+            el.classList.add('hidden-view');
+        });
+        // Mostra a seção alvo
+        document.getElementById('view-' + viewId).classList.remove('hidden-view');
+
+        // Atualiza o menu ativo (se clicado via navbar)
+        if (navElement) {
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            if(!navElement.classList.contains('border-nexus-purple')) { // Não aplica estilo active verde no botão ADM
+                navElement.classList.add('active');
+            }
+        }
+
+        // Inicializa o gráfico apenas quando a aba ADM for aberta para evitar bugs de renderização
+        if(viewId === 'adm' && !window.chartInitialized) {
+            initChart();
+            window.chartInitialized = true;
+        }
+    }
+
+    // Lógica do Chatbot Flutuante
+    function toggleChatbot() {
+        const chatWindow = document.getElementById('chatbot-window');
+        chatWindow.classList.toggle('hidden-view');
+    }
+
+    // Inicialização do Gráfico Chart.js (Dashboard ADM)
+    function initChart() {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+
+        // Criando um gradiente verde para a área do gráfico
+        let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.5)'); // Nexus Green transparente
+        gradient.addColorStop(1, 'rgba(34, 197, 94, 0.0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Maio', 'Junho', 'Julho', 'Agosto', 'Setembro (Proj.)'],
+                datasets: [{
+                    label: 'Faturamento (R$)',
+                    data: [35000, 52000, 48000, 85000, 110000],
+                    borderColor: '#22c55e',
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#0f172a',
+                    pointBorderColor: '#22c55e',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.4 // Deixa a linha curvada (suave)
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
