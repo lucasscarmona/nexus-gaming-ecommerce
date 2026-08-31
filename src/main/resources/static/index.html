@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Gaming Gear - Protótipo Front-end</title>
-    <!-- Tailwind CSS para estilização rápida e moderna -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js para o gráfico do painel ADM -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- FontAwesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <script>
         tailwind.config = {
             theme: {
@@ -34,31 +30,24 @@
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Rajdhani:wght@500;700&display=swap');
-
         body {
             background-color: #020617;
             color: #f8fafc;
         }
-
         .nav-link.active {
             border-bottom: 2px solid #22c55e;
             color: #22c55e;
         }
-
-        /* Estilo do scrollbar para manter o tema escuro */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
-
-        /* Animação suave para o chatbot */
         #chatbot-window { transition: all 0.3s ease-in-out; }
         .hidden-view { display: none !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
 
-<!-- NAVBAR TOP -->
 <nav class="bg-nexus-dark border-b border-nexus-gray sticky top-0 z-50 shadow-lg shadow-black/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -71,6 +60,7 @@
                     <a href="#" onclick="switchView('loja', this)" class="nav-link active px-3 py-2 font-medium hover:text-nexus-green transition-colors">Loja</a>
                     <a href="#" onclick="switchView('checkout', this)" class="nav-link px-3 py-2 font-medium hover:text-nexus-green transition-colors">Carrinho / Checkout</a>
                     <a href="#" onclick="switchView('cliente', this)" class="nav-link px-3 py-2 font-medium hover:text-nexus-green transition-colors">Área do Cliente</a>
+                    <a href="#" onclick="switchView('cadastro', this)" class="nav-link px-3 py-2 font-medium hover:text-nexus-green transition-colors">Cadastre-se</a>
                     <a href="#" onclick="switchView('adm', this)" class="nav-link px-3 py-2 font-medium text-nexus-purple hover:text-white transition-colors border border-nexus-purple rounded-md">Painel ADM</a>
                 </div>
             </div>
@@ -78,21 +68,15 @@
     </div>
 </nav>
 
-<!-- MAIN CONTENT AREA -->
 <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 relative">
 
-    <!-- ========================================== -->
-    <!-- VIEW 1: LOJA (VITRINE) -->
-    <!-- ========================================== -->
     <section id="view-loja" class="view-section">
         <div class="mb-8">
             <h1 class="font-display text-4xl font-bold mb-2">Equipamentos de <span class="text-nexus-green">Alta Performance</span></h1>
             <p class="text-gray-400">Eleve sua gameplay com periféricos de nível profissional.</p>
         </div>
 
-        <!-- Grid de Produtos -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Produto 1 -->
             <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
                 <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
                     <i class="fa-solid fa-keyboard text-6xl text-gray-500"></i>
@@ -107,7 +91,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Produto 2 -->
             <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
                 <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
                     <i class="fa-solid fa-computer-mouse text-6xl text-gray-500"></i>
@@ -122,7 +105,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Produto 3 -->
             <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
                 <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
                     <i class="fa-solid fa-headset text-6xl text-gray-500"></i>
@@ -140,16 +122,10 @@
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 2: CHECKOUT & PAGAMENTO MÚLTIPLO -->
-    <!-- ========================================== -->
     <section id="view-checkout" class="view-section hidden-view">
         <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-gray pb-2"><i class="fa-solid fa-cart-shopping text-nexus-green mr-2"></i> Finalizar Pedido</h1>
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Coluna Esquerda: Itens e Endereço -->
             <div class="lg:col-span-2 space-y-6">
-                <!-- Endereços -->
                 <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
                     <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Endereço de Entrega</h2>
                     <div class="space-y-3">
@@ -170,8 +146,6 @@
                     </div>
                     <button class="mt-4 text-sm text-nexus-green hover:underline"><i class="fa-solid fa-plus mr-1"></i> Inserir novo endereço</button>
                 </div>
-
-                <!-- Resumo do Carrinho -->
                 <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
                     <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Itens no Carrinho</h2>
                     <div class="flex items-center justify-between border-b border-nexus-gray pb-4">
@@ -186,13 +160,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Coluna Direita: Pagamento e Total -->
             <div class="space-y-6">
                 <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
                     <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Pagamento</h2>
-
-                    <!-- Cupom -->
                     <div class="mb-4">
                         <label class="block text-sm mb-1 text-gray-400">Cupom de Troca/Promocional</label>
                         <div class="flex gap-2">
@@ -200,59 +170,65 @@
                             <button class="bg-nexus-gray px-4 rounded hover:bg-slate-600">Aplicar</button>
                         </div>
                     </div>
-
-                    <!-- Múltiplos Cartões -->
                     <div class="mb-4">
                         <label class="block text-sm mb-2 text-gray-400">Cartões de Crédito (Split)</label>
-
-                        <!-- Cartão 1 -->
                         <div class="bg-slate-800 p-3 rounded mb-2 border-l-4 border-nexus-green flex justify-between items-center">
                             <div>
                                 <p class="text-sm font-medium"><i class="fa-brands fa-cc-mastercard mr-1"></i> Final 4321</p>
                             </div>
                             <input type="text" value="R$ 500,00" class="w-24 bg-nexus-dark border border-nexus-gray rounded p-1 text-right text-sm">
                         </div>
-
-                        <!-- Cartão 2 -->
                         <div class="bg-slate-800 p-3 rounded mb-2 border-l-4 border-nexus-purple flex justify-between items-center">
                             <div>
                                 <p class="text-sm font-medium"><i class="fa-brands fa-cc-visa mr-1"></i> Final 9876</p>
                             </div>
                             <input type="text" value="R$ 399,00" class="w-24 bg-nexus-dark border border-nexus-gray rounded p-1 text-right text-sm">
                         </div>
-
                         <button class="w-full mt-2 text-sm text-center text-nexus-green hover:underline border border-dashed border-nexus-gray rounded py-2"><i class="fa-solid fa-plus mr-1"></i> Adicionar Novo Cartão / Dividir Pagamento</button>
                     </div>
-
-                    <!-- Total -->
                     <div class="border-t border-nexus-gray pt-4 mt-6">
                         <div class="flex justify-between mb-2"><span class="text-gray-400">Subtotal</span><span>R$ 899,00</span></div>
                         <div class="flex justify-between mb-2"><span class="text-gray-400">Frete</span><span class="text-nexus-green">Grátis</span></div>
                         <div class="flex justify-between text-xl font-bold mt-4"><span>Total</span><span>R$ 899,00</span></div>
                     </div>
-
                     <button onclick="alert('Pedido Realizado com Sucesso!')" class="w-full bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-3 px-4 rounded mt-6 transition-colors text-lg uppercase tracking-wider">Confirmar Pedido</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 3: ÁREA DO CLIENTE -->
-    <!-- ========================================== -->
     <section id="view-cliente" class="view-section hidden-view">
         <div class="flex justify-between items-end mb-6 border-b border-nexus-gray pb-2">
             <h1 class="font-display text-3xl font-bold"><i class="fa-solid fa-user text-nexus-purple mr-2"></i> Perfil e Pedidos</h1>
             <div class="space-x-2">
-                <button class="bg-slate-800 hover:bg-slate-700 text-sm py-1 px-3 rounded border border-nexus-gray">Alterar Dados</button>
+                <button onclick="switchView('editar-dados')" class="bg-slate-800 hover:bg-slate-700 text-sm py-1 px-3 rounded border border-nexus-gray">Alterar Dados</button>
                 <button class="bg-red-900/50 text-red-400 hover:bg-red-900 text-sm py-1 px-3 rounded border border-red-800">Inativar Conta</button>
+            </div>
+        </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden mb-6">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg flex items-center justify-between">
+                <span><i class="fa-solid fa-ticket text-nexus-green mr-2"></i> Meus Cupons Disponíveis</span>
+            </div>
+            <div class="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="border-2 border-dashed border-nexus-green p-4 bg-green-900/10 rounded-lg text-center">
+                    <h4 class="text-nexus-green font-bold text-xl mb-1">BEMVINDO10</h4>
+                    <p class="text-sm text-gray-400">10% de desconto na primeira compra</p>
+                </div>
+                <div class="border-2 border-dashed border-nexus-green p-4 bg-green-900/10 rounded-lg text-center">
+                    <h4 class="text-nexus-green font-bold text-xl mb-1">FRETEGRATIS</h4>
+                    <p class="text-sm text-gray-400">Frete grátis em pedidos acima de R$ 150</p>
+                </div>
+                <div class="border-2 border-dashed border-nexus-green p-4 bg-green-900/10 rounded-lg text-center">
+                    <h4 class="text-nexus-green font-bold text-xl mb-1">NIVER20</h4>
+                    <p class="text-sm text-gray-400">20% de desconto no mês do seu aniversário</p>
+                </div>
             </div>
         </div>
 
         <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden">
             <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg flex items-center justify-between">
                 <span>Meus Pedidos Recentes</span>
-                <span class="text-sm font-normal text-gray-400"><i class="fa-solid fa-ticket text-nexus-green"></i> Saldo de Cupons: R$ 0,00</span>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
@@ -261,11 +237,10 @@
                         <th class="p-4 border-b border-nexus-gray">Pedido</th>
                         <th class="p-4 border-b border-nexus-gray">Data</th>
                         <th class="p-4 border-b border-nexus-gray">Status</th>
-                        <th class="p-4 border-b border-nexus-gray text-right">Ações Disponíveis (UX)</th>
+                        <th class="p-4 border-b border-nexus-gray text-right">Ações Disponíveis</th>
                     </tr>
                     </thead>
                     <tbody class="text-sm">
-                    <!-- Pedido 1: Aberto -->
                     <tr class="hover:bg-slate-800/50 transition-colors">
                         <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1024</td>
                         <td class="p-4 border-b border-nexus-gray text-gray-300">Hoje, 10:45</td>
@@ -276,7 +251,6 @@
                             <button class="text-red-400 hover:underline"><i class="fa-solid fa-xmark mr-1"></i> Cancelar Pedido</button>
                         </td>
                     </tr>
-                    <!-- Pedido 2: Em Trânsito -->
                     <tr class="hover:bg-slate-800/50 transition-colors">
                         <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1015</td>
                         <td class="p-4 border-b border-nexus-gray text-gray-300">18/08/2026</td>
@@ -287,7 +261,6 @@
                             <button class="text-nexus-green hover:underline font-semibold border border-nexus-green px-3 py-1 rounded"><i class="fa-solid fa-check mr-1"></i> Confirmar Recebimento</button>
                         </td>
                     </tr>
-                    <!-- Pedido 3: Entregue (Permite Troca) -->
                     <tr class="hover:bg-slate-800/50 transition-colors">
                         <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-0988</td>
                         <td class="p-4 border-b border-nexus-gray text-gray-300">02/08/2026</td>
@@ -298,38 +271,98 @@
                             <button class="text-gray-300 hover:text-white hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Solicitar Troca</button>
                         </td>
                     </tr>
-                    <!-- Pedido 4: Troca Aceita (Precisa enviar) -->
-                    <tr class="hover:bg-slate-800/50 transition-colors">
-                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-0940</td>
-                        <td class="p-4 border-b border-nexus-gray text-gray-300">15/07/2026</td>
-                        <td class="p-4 border-b border-nexus-gray">
-                            <span class="bg-purple-900/50 text-purple-400 border border-purple-700 px-2 py-1 rounded-full text-xs font-semibold">Troca Aceita</span>
-                        </td>
-                        <td class="p-4 border-b border-nexus-gray text-right">
-                            <button class="text-nexus-purple hover:underline border border-nexus-purple px-3 py-1 rounded"><i class="fa-solid fa-box-open mr-1"></i> Informar Despacho</button>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 4: PAINEL ADMINISTRADOR (BACKOFFICE) -->
-    <!-- ========================================== -->
+    <section id="view-cadastro" class="view-section hidden-view">
+        <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-gray pb-2"><i class="fa-solid fa-user-plus text-nexus-green mr-2"></i> Cadastrar Nova Conta</h1>
+        <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl max-w-4xl">
+            <form onsubmit="event.preventDefault(); switchView('cliente');">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Nome Completo</label>
+                        <input type="text" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Data de Nascimento</label>
+                        <input type="date" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green [color-scheme:dark]">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">E-mail</label>
+                        <input type="email" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Telefone</label>
+                        <input type="tel" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm text-gray-400 mb-1">Endereços (Entrega e Cobrança)</label>
+                    <textarea rows="3" required placeholder="Digite o logradouro, número, bairro, CEP e cidade..." class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green"></textarea>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-400 mb-1">Cartões de Crédito (Nome impresso, Número, Validade, CVV)</label>
+                    <textarea rows="2" required placeholder="Adicione os dados do seu cartão..." class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green"></textarea>
+                </div>
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-6 rounded transition-colors">Concluir Cadastro</button>
+                    <button type="button" onclick="switchView('loja')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-6 rounded border border-nexus-gray transition-colors">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="view-editar-dados" class="view-section hidden-view">
+        <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-gray pb-2"><i class="fa-solid fa-pen-to-square text-nexus-purple mr-2"></i> Alterar Meus Dados</h1>
+        <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl max-w-4xl">
+            <form onsubmit="event.preventDefault(); switchView('cliente');">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Nome Completo</label>
+                        <input type="text" required value="Lucas Carmona" class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Data de Nascimento</label>
+                        <input type="date" required value="2007-01-01" class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green [color-scheme:dark]">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">E-mail</label>
+                        <input type="email" required value="lucas@exemplo.com" class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-1">Telefone</label>
+                        <input type="tel" required value="(11) 99999-9999" class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm text-gray-400 mb-1">Endereços (Entrega e Cobrança)</label>
+                    <textarea rows="3" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">Casa - Rua das Flores, 123 - Mogi das Cruzes, SP - 01234-567</textarea>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm text-gray-400 mb-1">Cartões de Crédito</label>
+                    <textarea rows="2" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">Lucas C Fernandes, 1111 2222 3333 4321, 12/29, 123</textarea>
+                </div>
+                <div class="flex gap-4">
+                    <button type="submit" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-6 rounded transition-colors">Salvar Alterações</button>
+                    <button type="button" onclick="switchView('cliente')" class="bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 px-6 rounded border border-nexus-gray transition-colors">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
     <section id="view-adm" class="view-section hidden-view">
         <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-purple pb-2 text-nexus-purple"><i class="fa-solid fa-hammer mr-2"></i> Backoffice ADM</h1>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <!-- Gráfico de Análise (Chart.js) -->
             <div class="lg:col-span-2 bg-nexus-dark border border-nexus-gray p-4 rounded-xl">
                 <h3 class="text-lg font-semibold mb-4">Gráfico de Análise (Vendas)</h3>
                 <div class="relative h-64 w-full">
                     <canvas id="salesChart"></canvas>
                 </div>
             </div>
-            <!-- Resumo Rápido -->
             <div class="bg-nexus-dark border border-nexus-gray p-4 rounded-xl flex flex-col justify-center gap-4">
                 <div class="bg-slate-800 p-4 rounded border-l-4 border-nexus-green">
                     <p class="text-gray-400 text-sm">Faturamento Mês</p>
@@ -343,7 +376,6 @@
             </div>
         </div>
 
-        <!-- Esteira de Status ADM -->
         <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden">
             <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg">
                 Gestão de Pedidos (Alteração de Status)
@@ -383,14 +415,6 @@
                             <button class="bg-nexus-purple text-white px-3 py-1 rounded font-bold hover:bg-purple-500">Aplicar</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1027</td>
-                        <td class="p-4 border-b border-nexus-gray">Maria Souza</td>
-                        <td class="p-4 border-b border-nexus-gray"><span class="bg-blue-900/50 text-blue-400 border border-blue-700 px-2 py-1 rounded-full text-xs font-semibold">Item Recebido (Devolução)</span></td>
-                        <td class="p-4 border-b border-nexus-gray text-right">
-                            <button class="bg-blue-600 text-white px-3 py-1 rounded font-bold hover:bg-blue-500"><i class="fa-solid fa-rotate-left mr-1"></i> Processar Troca (Gerar Cupom)</button>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -399,11 +423,7 @@
 
 </main>
 
-<!-- ========================================== -->
-<!-- WIDGET CHATBOT IA (Interação Recomendação) -->
-<!-- ========================================== -->
 <div id="chatbot-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-    <!-- Janela do Chat (Escondida por padrão) -->
     <div id="chatbot-window" class="bg-nexus-dark border border-nexus-green rounded-lg w-80 shadow-[0_0_20px_rgba(34,197,94,0.2)] mb-4 hidden-view overflow-hidden">
         <div class="bg-nexus-green text-nexus-darker p-3 font-bold flex justify-between items-center">
             <span><i class="fa-solid fa-robot mr-2"></i> Nexus AI Assist</span>
@@ -413,7 +433,6 @@
             <div class="bg-slate-800 p-2 rounded-lg rounded-tl-none self-start max-w-[85%] border border-nexus-gray">
                 Olá! Vi que você está olhando o <strong>Teclado Nexus Strike Pro</strong>. Sabia que ele combina perfeitamente com nossos Mousepads Extended RGB?
             </div>
-            <!-- Card de recomendação no chat -->
             <div class="bg-nexus-darker border border-nexus-green p-2 rounded-lg self-start w-full">
                 <div class="flex gap-2">
                     <div class="w-12 h-12 bg-slate-800 flex items-center justify-center rounded"><i class="fa-solid fa-rug text-nexus-green"></i></div>
@@ -430,52 +449,40 @@
             <button class="bg-nexus-green text-nexus-darker px-3 rounded-r"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
-
-    <!-- Botão Flutuante -->
     <button onclick="toggleChatbot()" class="bg-nexus-green hover:bg-green-400 text-nexus-darker w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-transform hover:scale-110">
         <i class="fa-solid fa-robot text-2xl"></i>
     </button>
 </div>
 
-<!-- SCRIPTS DE NAVEGAÇÃO E GRÁFICOS -->
 <script>
-    // Lógica de navegação entre as telas (SPA Simples)
     function switchView(viewId, navElement = null) {
-        // Esconde todas as seções
         document.querySelectorAll('.view-section').forEach(el => {
             el.classList.add('hidden-view');
         });
-        // Mostra a seção alvo
         document.getElementById('view-' + viewId).classList.remove('hidden-view');
 
-        // Atualiza o menu ativo (se clicado via navbar)
         if (navElement) {
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            if(!navElement.classList.contains('border-nexus-purple')) { // Não aplica estilo active verde no botão ADM
+            if(!navElement.classList.contains('border-nexus-purple')) {
                 navElement.classList.add('active');
             }
         }
 
-        // Inicializa o gráfico apenas quando a aba ADM for aberta para evitar bugs de renderização
         if(viewId === 'adm' && !window.chartInitialized) {
             initChart();
             window.chartInitialized = true;
         }
     }
 
-    // Lógica do Chatbot Flutuante
     function toggleChatbot() {
         const chatWindow = document.getElementById('chatbot-window');
         chatWindow.classList.toggle('hidden-view');
     }
 
-    // Inicialização do Gráfico Chart.js (Dashboard ADM)
     function initChart() {
         const ctx = document.getElementById('salesChart').getContext('2d');
-
-        // Criando um gradiente verde para a área do gráfico
         let gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.5)'); // Nexus Green transparente
+        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.5)');
         gradient.addColorStop(1, 'rgba(34, 197, 94, 0.0)');
 
         new Chart(ctx, {
@@ -493,7 +500,7 @@
                     pointBorderWidth: 2,
                     pointRadius: 5,
                     fill: true,
-                    tension: 0.4 // Deixa a linha curvada (suave)
+                    tension: 0.4
                 }]
             },
             options: {
