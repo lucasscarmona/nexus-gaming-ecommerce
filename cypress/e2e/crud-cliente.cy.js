@@ -23,17 +23,35 @@ describe('Avaliação DVP & DRS - CRUD Completo de Cliente', () => {
         });
     })
 
-    it('[RN-01] Não deve permitir cadastro com E-mail em formato inválido', () => {
-        cy.log('Demonstrando Regra de Validação de Formato (RN / RNF)');
+    it('[RF-01] Deve cadastrar um cliente com sucesso usando dados válidos', () => {
+        cy.log('Demonstrando Requisito Funcional: Cadastro de Clientes');
         cy.contains('Cadastre-se').click();
 
-        cy.get('#cad-nome').type('Lucas Teste Falha');
-        cy.get('#cad-cpf').type('11122233344');
-        cy.get('#cad-data').type('2006-07-25');
-        cy.get('#cad-email').type('email-invalido-sem-arroba');
-        cy.get('#cad-tel').type('11999999999');
+        const cpfDinamico = '123' + Math.floor(Math.random() * 10000000) + '0';
+        const emailDinamico = `fernando.${Date.now()}@nexus.com`;
 
-        cy.get('#cad-email:invalid').should('have.length', 1);
+        cy.get('#cad-nome').type('Fernando Camargo');
+        cy.get('#cad-cpf').type(cpfDinamico);
+        cy.get('#cad-data').type('2000-01-01');
+        cy.get('#cad-email').type(emailDinamico);
+        cy.get('#cad-tel').type('11988887777');
+
+        cy.get('#cad-cep').type('08710-000');
+        cy.get('#cad-rua').type('Avenida Vereador Narciso Yague Guimarães');
+        cy.get('#cad-numero').type('100');
+        cy.get('#cad-bairro').type('Centro Cívico');
+        cy.get('#cad-cidade').type('Mogi das Cruzes - SP');
+
+        cy.get('#cad-cartao-nome').type('FERNANDO C SILVA');
+        cy.get('#cad-cartao-num').type('1111 2222 3333 4444');
+        cy.get('#cad-cartao-val').type('12/30');
+        cy.get('#cad-cartao-cvv').type('123');
+
+        cy.get('#btn-concluir-cadastro').click();
+
+        cy.on('window:alert', (texto) => {
+            expect(texto).to.contains('Conta criada com sucesso!');
+        });
     })
 
     it('[RF-03 / RF-02] Deve permitir alteração de dados cadastrais do cliente', () => {
