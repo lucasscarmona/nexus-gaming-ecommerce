@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>t
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,14 @@
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+        #chatbot-window { transition: all 0.3s ease-in-out; }
         .hidden-view { display: none !important; }
+        .campo-label { display: block; font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.25rem; }
+        .campo-input {
+            width: 100%; background-color: #1e293b; border: 1px solid #334155; border-radius: 0.25rem;
+            padding: 0.5rem; color: white;
+        }
+        .campo-input:focus { outline: none; border-color: #22c55e; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
@@ -89,12 +96,110 @@
                     </div>
                 </div>
             </div>
+            <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+                <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
+                    <i class="fa-solid fa-computer-mouse text-6xl text-gray-500"></i>
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-semibold tracking-wider text-nexus-purple uppercase">Mouse Wireless</span>
+                    <h3 class="text-xl font-bold mt-1">Nexus AimBot UltraLight</h3>
+                    <p class="text-gray-400 text-sm mt-2 mb-4">Sensor 30K DPI, apenas 55g. Bateria para 80h.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-nexus-green">R$ 649,00</span>
+                        <button onclick="switchView('checkout')" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden hover:border-nexus-green transition-all hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+                <div class="h-48 bg-slate-800 flex items-center justify-center p-4">
+                    <i class="fa-solid fa-headset text-6xl text-gray-500"></i>
+                </div>
+                <div class="p-5">
+                    <span class="text-xs font-semibold tracking-wider text-nexus-purple uppercase">Headset 7.1</span>
+                    <h3 class="text-xl font-bold mt-1">Nexus Echo Surround</h3>
+                    <p class="text-gray-400 text-sm mt-2 mb-4">Drivers de 50mm, áudio espacial e microfone flip-to-mute.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-nexus-green">R$ 720,00</span>
+                        <button onclick="switchView('checkout')" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors">Comprar</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="view-checkout" class="view-section hidden-view">
         <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-gray pb-2"><i class="fa-solid fa-cart-shopping text-nexus-green mr-2"></i> Finalizar Pedido</h1>
-        <p class="text-gray-400">Tela de checkout em construção...</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Endereço de Entrega</h2>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 bg-slate-800 p-3 rounded cursor-pointer border border-nexus-green">
+                            <input type="radio" name="address" checked class="form-radio text-nexus-green focus:ring-nexus-green h-4 w-4">
+                            <div>
+                                <p class="font-medium">Casa - Rua das Flores, 123</p>
+                                <p class="text-sm text-gray-400">CEP: 01234-567 - São Paulo, SP</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center space-x-3 bg-slate-800 p-3 rounded cursor-pointer border border-transparent hover:border-gray-500">
+                            <input type="radio" name="address" class="form-radio text-nexus-green focus:ring-nexus-green h-4 w-4">
+                            <div>
+                                <p class="font-medium">Trabalho - Av Paulista, 1000 - Sala 45</p>
+                                <p class="text-sm text-gray-400">CEP: 01310-100 - São Paulo, SP</p>
+                            </div>
+                        </label>
+                    </div>
+                    <button class="mt-4 text-sm text-nexus-green hover:underline"><i class="fa-solid fa-plus mr-1"></i> Inserir novo endereço</button>
+                </div>
+                <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Itens no Carrinho</h2>
+                    <div class="flex items-center justify-between border-b border-nexus-gray pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-slate-800 rounded flex items-center justify-center"><i class="fa-solid fa-keyboard text-2xl"></i></div>
+                            <div>
+                                <p class="font-bold">Nexus Strike Pro RGB</p>
+                                <p class="text-sm text-gray-400">Qtd: 1</p>
+                            </div>
+                        </div>
+                        <span class="font-bold">R$ 899,00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl">
+                    <h2 class="text-xl font-semibold mb-4 text-nexus-purple">Pagamento</h2>
+                    <div class="mb-4">
+                        <label class="block text-sm mb-1 text-gray-400">Cupom de Troca/Promocional</label>
+                        <div class="flex gap-2">
+                            <input type="text" placeholder="EX: TROCA150" class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                            <button class="bg-nexus-gray px-4 rounded hover:bg-slate-600">Aplicar</button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm mb-2 text-gray-400">Cartões de Crédito (Split)</label>
+                        <div class="bg-slate-800 p-3 rounded mb-2 border-l-4 border-nexus-green flex justify-between items-center">
+                            <div>
+                                <p class="text-sm font-medium"><i class="fa-brands fa-cc-mastercard mr-1"></i> Final 4321</p>
+                            </div>
+                            <input type="text" value="R$ 500,00" class="w-24 bg-nexus-dark border border-nexus-gray rounded p-1 text-right text-sm">
+                        </div>
+                        <div class="bg-slate-800 p-3 rounded mb-2 border-l-4 border-nexus-purple flex justify-between items-center">
+                            <div>
+                                <p class="text-sm font-medium"><i class="fa-brands fa-cc-visa mr-1"></i> Final 9876</p>
+                            </div>
+                            <input type="text" value="R$ 399,00" class="w-24 bg-nexus-dark border border-nexus-gray rounded p-1 text-right text-sm">
+                        </div>
+                        <button class="w-full mt-2 text-sm text-center text-nexus-green hover:underline border border-dashed border-nexus-gray rounded py-2"><i class="fa-solid fa-plus mr-1"></i> Adicionar Novo Cartão / Dividir Pagamento</button>
+                    </div>
+                    <div class="border-t border-nexus-gray pt-4 mt-6">
+                        <div class="flex justify-between mb-2"><span class="text-gray-400">Subtotal</span><span>R$ 899,00</span></div>
+                        <div class="flex justify-between mb-2"><span class="text-gray-400">Frete</span><span class="text-nexus-green">Grátis</span></div>
+                        <div class="flex justify-between text-xl font-bold mt-4"><span>Total</span><span>R$ 899,00</span></div>
+                    </div>
+                    <button onclick="alert('Pedido Realizado com Sucesso!')" class="w-full bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-3 px-4 rounded mt-6 transition-colors text-lg uppercase tracking-wider">Confirmar Pedido</button>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="view-cliente" class="view-section hidden-view">
@@ -102,10 +207,144 @@
             <h1 class="font-display text-3xl font-bold"><i class="fa-solid fa-user text-nexus-purple mr-2"></i> Perfil e Pedidos</h1>
             <div class="space-x-2">
                 <button onclick="switchView('editar-dados')" class="bg-slate-800 hover:bg-slate-700 text-sm py-1 px-3 rounded border border-nexus-gray">Alterar Dados</button>
-                <button onclick="inativarContaCliente(1)" id="btn-inativar" class="bg-red-900/50 text-red-400 hover:bg-red-900 text-sm py-1 px-3 rounded border border-red-800">Inativar Conta</button>
+                <button onclick="inativarContaCliente()" id="btn-inativar" class="bg-red-900/50 text-red-400 hover:bg-red-900 text-sm py-1 px-3 rounded border border-red-800">Inativar Conta</button>
             </div>
         </div>
-        <p class="text-gray-400">Aqui ficarão os pedidos após a integração com o back-end...</p>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden mb-6">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg flex items-center justify-between">
+                <span><i class="fa-solid fa-ticket text-nexus-green mr-2"></i> Meus Cupons Disponíveis</span>
+            </div>
+            <div class="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="border-2 border-dashed border-nexus-green p-4 bg-green-900/10 rounded-lg text-center">
+                    <h4 class="text-nexus-green font-bold text-xl mb-1">BEMVINDO10</h4>
+                    <p class="text-sm text-gray-400">10% de desconto na primeira compra</p>
+                </div>
+                <div class="border-2 border-dashed border-nexus-green p-4 bg-green-900/10 rounded-lg text-center">
+                    <h4 class="text-nexus-green font-bold text-xl mb-1">FRETEGRATIS</h4>
+                    <p class="text-sm text-gray-400">Frete grátis em pedidos acima de R$ 150</p>
+                </div>
+                <div class="border-2 border-dashed border-nexus-green p-4 bg-green-900/10 rounded-lg text-center">
+                    <h4 class="text-nexus-green font-bold text-xl mb-1">NIVER20</h4>
+                    <p class="text-sm text-gray-400">20% de desconto no mês do seu aniversário</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden mb-6">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg flex items-center justify-between">
+                <span>Meus Pedidos Recentes</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-nexus-dark text-gray-400 text-sm uppercase">
+                        <th class="p-4 border-b border-nexus-gray">Pedido</th>
+                        <th class="p-4 border-b border-nexus-gray">Data</th>
+                        <th class="p-4 border-b border-nexus-gray">Status</th>
+                        <th class="p-4 border-b border-nexus-gray text-right">Ações Disponíveis</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1024</td>
+                        <td class="p-4 border-b border-nexus-gray text-gray-300">Hoje, 10:45</td>
+                        <td class="p-4 border-b border-nexus-gray">
+                            <span class="bg-yellow-900/50 text-yellow-400 border border-yellow-700 px-2 py-1 rounded-full text-xs font-semibold">Em Processamento</span>
+                        </td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="text-red-400 hover:underline"><i class="fa-solid fa-xmark mr-1"></i> Cancelar Pedido</button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1015</td>
+                        <td class="p-4 border-b border-nexus-gray text-gray-300">18/08/2026</td>
+                        <td class="p-4 border-b border-nexus-gray">
+                            <span class="bg-blue-900/50 text-blue-400 border border-blue-700 px-2 py-1 rounded-full text-xs font-semibold">Em Trânsito</span>
+                        </td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="text-nexus-green hover:underline font-semibold border border-nexus-green px-3 py-1 rounded"><i class="fa-solid fa-check mr-1"></i> Confirmar Recebimento</button>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/50 transition-colors">
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-0988</td>
+                        <td class="p-4 border-b border-nexus-gray text-gray-300">02/08/2026</td>
+                        <td class="p-4 border-b border-nexus-gray">
+                            <span class="bg-green-900/50 text-green-400 border border-green-700 px-2 py-1 rounded-full text-xs font-semibold">Entregue</span>
+                        </td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <button class="text-gray-300 hover:text-white hover:underline"><i class="fa-solid fa-rotate-left mr-1"></i> Solicitar Troca</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden mb-6">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg">Meus Endereços</div>
+            <div class="p-4">
+                <table class="w-full text-left border-collapse text-sm mb-4">
+                    <thead>
+                    <tr class="text-gray-400 uppercase text-xs">
+                        <th class="p-2">Identificação</th>
+                        <th class="p-2">Endereço</th>
+                        <th class="p-2">Tipo</th>
+                    </tr>
+                    </thead>
+                    <tbody id="corpo-lista-enderecos"></tbody>
+                </table>
+                <form id="form-endereco" onsubmit="adicionarEndereco(event)" class="grid grid-cols-1 md:grid-cols-3 gap-3 border-t border-nexus-gray pt-4">
+                    <input type="text" id="end-nome" placeholder="Identificação (ex: Trabalho)" required class="campo-input">
+                    <input type="text" id="end-logradouro" placeholder="Logradouro (ex: Rua das Flores)" required class="campo-input md:col-span-2">
+                    <input type="text" id="end-numero" placeholder="Número" required class="campo-input">
+                    <input type="text" id="end-complemento" placeholder="Complemento" class="campo-input">
+                    <input type="text" id="end-bairro" placeholder="Bairro" required class="campo-input">
+                    <input type="text" id="end-cep" placeholder="CEP" required class="campo-input">
+                    <input type="text" id="end-cidade" placeholder="Cidade" required class="campo-input">
+                    <input type="text" id="end-estado" placeholder="Estado (UF)" required maxlength="2" class="campo-input">
+                    <input type="text" id="end-pais" placeholder="País" required value="Brasil" class="campo-input">
+                    <select id="end-tipo" required class="campo-input">
+                        <option value="AMBOS">Cobrança e Entrega</option>
+                        <option value="COBRANCA">Somente Cobrança</option>
+                        <option value="ENTREGA">Somente Entrega</option>
+                    </select>
+                    <input type="text" id="end-observacoes" placeholder="Observações (opcional)" class="campo-input md:col-span-2">
+                    <button type="submit" id="btn-adicionar-endereco" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors">Adicionar Endereço</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg">Meus Cartões de Crédito</div>
+            <div class="p-4">
+                <table class="w-full text-left border-collapse text-sm mb-4">
+                    <thead>
+                    <tr class="text-gray-400 uppercase text-xs">
+                        <th class="p-2">Número</th>
+                        <th class="p-2">Nome</th>
+                        <th class="p-2">Validade</th>
+                        <th class="p-2">Bandeira</th>
+                        <th class="p-2">Preferencial</th>
+                    </tr>
+                    </thead>
+                    <tbody id="corpo-lista-cartoes"></tbody>
+                </table>
+                <form id="form-cartao" onsubmit="adicionarCartao(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3 border-t border-nexus-gray pt-4 items-center">
+                    <input type="text" id="cartao-numero" placeholder="Número do Cartão" required class="campo-input md:col-span-2">
+                    <input type="text" id="cartao-nome" placeholder="Nome Impresso no Cartão" required class="campo-input md:col-span-2">
+                    <select id="cartao-bandeira" required class="campo-input md:col-span-2">
+                        <option value="">Bandeira do Cartão...</option>
+                    </select>
+                    <input type="text" id="cartao-validade" placeholder="Validade (MM/AA)" maxlength="5" required class="campo-input">
+                    <input type="text" id="cartao-cvv" placeholder="Código de Segurança" required class="campo-input">
+                    <label class="flex items-center gap-2 text-sm text-gray-400 md:col-span-2">
+                        <input type="checkbox" id="cartao-preferencial"> Definir como cartão preferencial
+                    </label>
+                    <button type="submit" id="btn-adicionar-cartao" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors md:col-span-2">Adicionar Cartão</button>
+                </form>
+            </div>
+        </div>
     </section>
 
     <section id="view-cadastro" class="view-section hidden-view">
@@ -116,72 +355,131 @@
                 <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Dados Pessoais</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Nome Completo</label>
-                        <input type="text" id="cad-nome" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Nome Completo</label>
+                        <input type="text" id="cad-nome" required class="campo-input">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">CPF (Apenas Números)</label>
-                        <input type="text" id="cad-cpf" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Gênero</label>
+                        <select id="cad-genero" required class="campo-input">
+                            <option value="">Selecione...</option>
+                            <option value="MASCULINO">Masculino</option>
+                            <option value="FEMININO">Feminino</option>
+                            <option value="OUTRO">Outro</option>
+                        </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Data de Nascimento</label>
-                        <input type="date" id="cad-data" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green [color-scheme:dark]">
+                        <label class="campo-label">CPF (Apenas Números)</label>
+                        <input type="text" id="cad-cpf" required class="campo-input">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">E-mail</label>
-                        <input type="email" id="cad-email" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Data de Nascimento</label>
+                        <input type="date" id="cad-data" required class="campo-input [color-scheme:dark]">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Telefone</label>
-                        <input type="tel" id="cad-tel" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">E-mail</label>
+                        <input type="email" id="cad-email" required class="campo-input">
+                    </div>
+                    <div></div>
+                    <div>
+                        <label class="campo-label">Tipo de Telefone</label>
+                        <select id="cad-tel-tipo" required class="campo-input">
+                            <option value="CELULAR">Celular</option>
+                            <option value="RESIDENCIAL">Residencial</option>
+                            <option value="COMERCIAL">Comercial</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="w-20 shrink-0">
+                            <label class="campo-label">DDD</label>
+                            <input type="text" id="cad-tel-ddd" required maxlength="2" class="campo-input text-center">
+                        </div>
+                        <div class="flex-1">
+                            <label class="campo-label">Número</label>
+                            <input type="text" id="cad-tel-numero" required class="campo-input">
+                        </div>
                     </div>
                 </div>
 
-                <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Endereço de Entrega</h3>
+                <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Senha de Acesso</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-1">
+                    <div>
+                        <label class="campo-label">Senha</label>
+                        <input type="password" id="cad-senha" required class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">Confirmar Senha</label>
+                        <input type="password" id="cad-confirmar-senha" required class="campo-input">
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mb-6">Mínimo de 8 caracteres, com letra maiúscula, minúscula e caractere especial.</p>
+
+                <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Endereço de Entrega e Cobrança</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">CEP</label>
-                        <input type="text" id="cad-cep" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Identificação (ex: Casa)</label>
+                        <input type="text" id="cad-end-nome" required class="campo-input">
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm text-gray-400 mb-1">Rua / Logradouro</label>
-                        <input type="text" id="cad-rua" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Logradouro</label>
+                        <input type="text" id="cad-end-logradouro" required placeholder="Ex: Rua das Flores, Avenida Paulista..." class="campo-input">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Número</label>
-                        <input type="text" id="cad-numero" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Número</label>
+                        <input type="text" id="cad-end-numero" required class="campo-input">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Complemento</label>
-                        <input type="text" id="cad-complemento" class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Complemento</label>
+                        <input type="text" id="cad-end-complemento" class="campo-input">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Bairro</label>
-                        <input type="text" id="cad-bairro" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Bairro</label>
+                        <input type="text" id="cad-end-bairro" required class="campo-input">
                     </div>
-                    <div class="md:col-span-3">
-                        <label class="block text-sm text-gray-400 mb-1">Cidade / Estado</label>
-                        <input type="text" id="cad-cidade" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    <div>
+                        <label class="campo-label">CEP</label>
+                        <input type="text" id="cad-end-cep" required class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">Cidade</label>
+                        <input type="text" id="cad-end-cidade" required class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">Estado (UF)</label>
+                        <input type="text" id="cad-end-estado" required maxlength="2" class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">País</label>
+                        <input type="text" id="cad-end-pais" required value="Brasil" class="campo-input">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="campo-label">Observações (opcional)</label>
+                        <input type="text" id="cad-end-observacoes" class="campo-input">
                     </div>
                 </div>
 
-                <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Cartão de Crédito</h3>
+                <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Cartão de Crédito <span class="text-xs text-gray-500 font-normal">(opcional, pode ser adicionado depois)</span></h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                     <div class="md:col-span-2">
-                        <label class="block text-sm text-gray-400 mb-1">Nome do Titular</label>
-                        <input type="text" id="cad-cartao-nome" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Número do Cartão</label>
+                        <input type="text" id="cad-cartao-numero" class="campo-input">
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm text-gray-400 mb-1">Número do Cartão</label>
-                        <input type="text" id="cad-cartao-num" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Nome Impresso no Cartão</label>
+                        <input type="text" id="cad-cartao-nome" class="campo-input">
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm text-gray-400 mb-1">Validade (MM/AA)</label>
-                        <input type="text" id="cad-cartao-val" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                        <label class="campo-label">Bandeira</label>
+                        <select id="cad-cartao-bandeira" class="campo-input">
+                            <option value="">Selecione...</option>
+                        </select>
                     </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm text-gray-400 mb-1">CVV</label>
-                        <input type="text" id="cad-cartao-cvv" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green">
+                    <div>
+                        <label class="campo-label">Validade (MM/AA)</label>
+                        <input type="text" id="cad-cartao-validade" placeholder="MM/AA" maxlength="5" class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">Código de Segurança</label>
+                        <input type="text" id="cad-cartao-cvv" class="campo-input">
                     </div>
                 </div>
 
@@ -195,25 +493,46 @@
 
     <section id="view-editar-dados" class="view-section hidden-view">
         <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-gray pb-2"><i class="fa-solid fa-pen-to-square text-nexus-purple mr-2"></i> Alterar Meus Dados</h1>
-        <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl max-w-4xl">
+        <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl max-w-4xl mb-6">
+            <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Dados Cadastrais</h3>
             <form id="form-editar" onsubmit="atualizarCliente(event)">
                 <input type="hidden" id="edit-id" value="1">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Nome Completo</label>
-                        <input type="text" id="edit-nome" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green" value="Fernando Camargo">
+                        <label class="campo-label">Nome Completo</label>
+                        <input type="text" id="edit-nome" required class="campo-input">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Data de Nascimento</label>
-                        <input type="date" id="edit-data" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green [color-scheme:dark]" value="2000-01-01">
+                        <label class="campo-label">Gênero</label>
+                        <select id="edit-genero" required class="campo-input">
+                            <option value="MASCULINO">Masculino</option>
+                            <option value="FEMININO">Feminino</option>
+                            <option value="OUTRO">Outro</option>
+                        </select>
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">E-mail</label>
-                        <input type="email" id="edit-email" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green" value="fernando@nexus.com">
+                        <label class="campo-label">Data de Nascimento</label>
+                        <input type="date" id="edit-data" required class="campo-input [color-scheme:dark]">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-400 mb-1">Telefone</label>
-                        <input type="tel" id="edit-tel" required class="w-full bg-slate-800 border border-nexus-gray rounded p-2 text-white focus:outline-none focus:border-nexus-green" value="11988887777">
+                        <label class="campo-label">E-mail</label>
+                        <input type="email" id="edit-email" required class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">Tipo de Telefone</label>
+                        <select id="edit-tel-tipo" required class="campo-input">
+                            <option value="CELULAR">Celular</option>
+                            <option value="RESIDENCIAL">Residencial</option>
+                            <option value="COMERCIAL">Comercial</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="campo-label">DDD</label>
+                        <input type="text" id="edit-tel-ddd" required maxlength="2" class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">Número</label>
+                        <input type="text" id="edit-tel-numero" required class="campo-input">
                     </div>
                 </div>
                 <div class="flex gap-4 mt-6">
@@ -222,16 +541,154 @@
                 </div>
             </form>
         </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray p-6 rounded-xl max-w-4xl">
+            <h3 class="text-nexus-purple font-bold mb-3 border-b border-slate-700 pb-1">Alterar Senha</h3>
+            <form id="form-senha" onsubmit="alterarSenhaCliente(event)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="campo-label">Nova Senha</label>
+                        <input type="password" id="senha-nova" required class="campo-input">
+                    </div>
+                    <div>
+                        <label class="campo-label">Confirmar Nova Senha</label>
+                        <input type="password" id="senha-confirmar" required class="campo-input">
+                    </div>
+                </div>
+                <button type="submit" id="btn-salvar-senha" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-6 rounded transition-colors">Alterar Senha</button>
+            </form>
+        </div>
     </section>
 
     <section id="view-adm" class="view-section hidden-view">
         <h1 class="font-display text-3xl font-bold mb-6 border-b border-nexus-purple pb-2 text-nexus-purple"><i class="fa-solid fa-hammer mr-2"></i> Backoffice ADM</h1>
-        <p class="text-gray-400">Painel ADM omitido neste trecho.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2 bg-nexus-dark border border-nexus-gray p-4 rounded-xl">
+                <h3 class="text-lg font-semibold mb-4">Gráfico de Análise (Vendas)</h3>
+                <div class="relative h-64 w-full">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+            <div class="bg-nexus-dark border border-nexus-gray p-4 rounded-xl flex flex-col justify-center gap-4">
+                <div class="bg-slate-800 p-4 rounded border-l-4 border-nexus-green">
+                    <p class="text-gray-400 text-sm">Faturamento Mês</p>
+                    <p class="text-2xl font-bold text-white">R$ 142.590,00</p>
+                </div>
+                <div class="bg-slate-800 p-4 rounded border-l-4 border-nexus-purple">
+                    <p class="text-gray-400 text-sm">Trocas Pendentes</p>
+                    <p class="text-2xl font-bold text-white">12 solicitações</p>
+                </div>
+                <button onclick="document.getElementById('busca-nome').focus()" class="w-full border border-nexus-gray hover:bg-slate-800 py-2 rounded text-sm mt-2"><i class="fa-solid fa-users mr-1"></i> Consultar Base de Clientes</button>
+            </div>
+        </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden mb-8">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg">
+                Gestão de Pedidos (Alteração de Status)
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-nexus-dark text-gray-400 text-sm uppercase">
+                        <th class="p-4 border-b border-nexus-gray">Pedido</th>
+                        <th class="p-4 border-b border-nexus-gray">Cliente</th>
+                        <th class="p-4 border-b border-nexus-gray">Status Atual</th>
+                        <th class="p-4 border-b border-nexus-gray text-right">Ação Administrativa</th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                    <tr>
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1025</td>
+                        <td class="p-4 border-b border-nexus-gray">Lucas Carmona</td>
+                        <td class="p-4 border-b border-nexus-gray"><span class="bg-yellow-900/50 text-yellow-400 border border-yellow-700 px-2 py-1 rounded-full text-xs font-semibold">Pagamento Realizado</span></td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <select class="bg-slate-800 border border-nexus-gray text-white text-sm rounded p-1 mr-2 focus:border-nexus-green outline-none">
+                                <option>Mover para EM TRÂNSITO</option>
+                                <option>Cancelar</option>
+                            </select>
+                            <button class="bg-nexus-green text-nexus-darker px-3 py-1 rounded font-bold hover:bg-green-400">Aplicar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 border-b border-nexus-gray font-bold text-white">#NX-1026</td>
+                        <td class="p-4 border-b border-nexus-gray">Fernando Camargo</td>
+                        <td class="p-4 border-b border-nexus-gray"><span class="bg-purple-900/50 text-purple-400 border border-purple-700 px-2 py-1 rounded-full text-xs font-semibold">Troca Solicitada</span></td>
+                        <td class="p-4 border-b border-nexus-gray text-right">
+                            <select class="bg-slate-800 border border-nexus-gray text-white text-sm rounded p-1 mr-2 focus:border-nexus-purple outline-none">
+                                <option>Aceitar Troca</option>
+                                <option>Negar Troca</option>
+                            </select>
+                            <button class="bg-nexus-purple text-white px-3 py-1 rounded font-bold hover:bg-purple-500">Aplicar</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-nexus-dark border border-nexus-gray rounded-xl overflow-hidden">
+            <div class="p-4 bg-slate-800/50 border-b border-nexus-gray font-semibold text-lg">Consultar Base de Clientes</div>
+            <div class="p-4">
+                <form id="form-busca-clientes" onsubmit="buscarClientes(event)" class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-4">
+                    <input type="text" id="busca-nome" placeholder="Nome" class="campo-input">
+                    <input type="text" id="busca-cpf" placeholder="CPF" class="campo-input">
+                    <input type="text" id="busca-email" placeholder="E-mail" class="campo-input">
+                    <button type="submit" id="btn-buscar-clientes" class="bg-nexus-green hover:bg-green-400 text-nexus-darker font-bold py-2 px-4 rounded transition-colors">Buscar</button>
+                </form>
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                    <tr class="text-gray-400 uppercase text-xs">
+                        <th class="p-2">ID</th>
+                        <th class="p-2">Nome</th>
+                        <th class="p-2">CPF</th>
+                        <th class="p-2">E-mail</th>
+                        <th class="p-2">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="corpo-resultado-busca"></tbody>
+                </table>
+            </div>
+        </div>
     </section>
 
 </main>
 
+<div id="chatbot-container" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div id="chatbot-window" class="bg-nexus-dark border border-nexus-green rounded-lg w-80 shadow-[0_0_20px_rgba(34,197,94,0.2)] mb-4 hidden-view overflow-hidden">
+        <div class="bg-nexus-green text-nexus-darker p-3 font-bold flex justify-between items-center">
+            <span><i class="fa-solid fa-robot mr-2"></i> Nexus AI Assist</span>
+            <button onclick="toggleChatbot()" class="hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="p-4 h-64 overflow-y-auto bg-slate-900 flex flex-col gap-3 text-sm">
+            <div class="bg-slate-800 p-2 rounded-lg rounded-tl-none self-start max-w-[85%] border border-nexus-gray">
+                Olá! Vi que você está olhando o <strong>Teclado Nexus Strike Pro</strong>. Sabia que ele combina perfeitamente com nossos Mousepads Extended RGB?
+            </div>
+            <div class="bg-nexus-darker border border-nexus-green p-2 rounded-lg self-start w-full">
+                <div class="flex gap-2">
+                    <div class="w-12 h-12 bg-slate-800 flex items-center justify-center rounded"><i class="fa-solid fa-rug text-nexus-green"></i></div>
+                    <div>
+                        <p class="font-bold text-xs">Mousepad Nexus Glow</p>
+                        <p class="text-nexus-green font-bold text-xs">R$ 150,00</p>
+                        <button class="mt-1 text-[10px] bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded">Adicionar ao Carrinho</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 border-t border-nexus-gray bg-nexus-dark flex">
+            <input type="text" placeholder="Pergunte sobre produtos..." class="w-full bg-slate-800 text-sm p-2 rounded-l focus:outline-none">
+            <button class="bg-nexus-green text-nexus-darker px-3 rounded-r"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <button onclick="toggleChatbot()" class="bg-nexus-green hover:bg-green-400 text-nexus-darker w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.5)] transition-transform hover:scale-110">
+        <i class="fa-solid fa-robot text-2xl"></i>
+    </button>
+</div>
+
 <script>
+    const API_BASE = 'http://localhost:8080/api';
+    let clienteId = localStorage.getItem('clienteId') || null;
+
     function switchView(viewId, navElement = null) {
         document.querySelectorAll('.view-section').forEach(el => {
             el.classList.add('hidden-view');
@@ -241,31 +698,148 @@
 
         if (navElement) {
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            if(!navElement.classList.contains('border-nexus-purple')) {
+            if (!navElement.classList.contains('border-nexus-purple')) {
                 navElement.classList.add('active');
             }
         }
+
+        if (viewId === 'adm' && !window.chartInitialized) {
+            initChart();
+            window.chartInitialized = true;
+        }
+        if (viewId === 'cliente') {
+            carregarEnderecos();
+            carregarCartoes();
+        }
+        if (viewId === 'editar-dados') {
+            carregarDadosCliente();
+        }
     }
+
+    function toggleChatbot() {
+        const chatWindow = document.getElementById('chatbot-window');
+        chatWindow.classList.toggle('hidden-view');
+    }
+
+    function initChart() {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(34, 197, 94, 0.5)');
+        gradient.addColorStop(1, 'rgba(34, 197, 94, 0.0)');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Maio', 'Junho', 'Julho', 'Agosto', 'Setembro (Proj.)'],
+                datasets: [{
+                    label: 'Faturamento (R$)',
+                    data: [35000, 52000, 48000, 85000, 110000],
+                    borderColor: '#22c55e',
+                    backgroundColor: gradient,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#0f172a',
+                    pointBorderColor: '#22c55e',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+    }
+
+    async function carregarBandeiras() {
+        try {
+            const resposta = await fetch(`${API_BASE}/bandeiras`);
+            const bandeiras = await resposta.json();
+            ['cad-cartao-bandeira', 'cartao-bandeira'].forEach(selId => {
+                const select = document.getElementById(selId);
+                if (!select) return;
+                bandeiras.forEach(b => {
+                    const option = document.createElement('option');
+                    option.value = b.nome;
+                    option.textContent = b.nome;
+                    select.appendChild(option);
+                });
+            });
+        } catch (error) {
+            console.error('Erro ao carregar bandeiras:', error);
+        }
+    }
+    carregarBandeiras();
 
     async function cadastrarCliente(event) {
         event.preventDefault();
+
         const dados = {
             nome: document.getElementById('cad-nome').value,
+            genero: document.getElementById('cad-genero').value,
             cpf: document.getElementById('cad-cpf').value,
             dataNascimento: document.getElementById('cad-data').value,
+            telefoneTipo: document.getElementById('cad-tel-tipo').value,
+            telefoneDdd: document.getElementById('cad-tel-ddd').value,
+            telefoneNumero: document.getElementById('cad-tel-numero').value,
             email: document.getElementById('cad-email').value,
-            telefone: document.getElementById('cad-tel').value
+            senha: document.getElementById('cad-senha').value,
+            confirmacaoSenha: document.getElementById('cad-confirmar-senha').value,
+            endereco: {
+                nome: document.getElementById('cad-end-nome').value,
+                logradouro: document.getElementById('cad-end-logradouro').value,
+                numero: document.getElementById('cad-end-numero').value,
+                complemento: document.getElementById('cad-end-complemento').value || null,
+                bairro: document.getElementById('cad-end-bairro').value,
+                cep: document.getElementById('cad-end-cep').value,
+                cidade: document.getElementById('cad-end-cidade').value,
+                estado: document.getElementById('cad-end-estado').value,
+                pais: document.getElementById('cad-end-pais').value,
+                observacoes: document.getElementById('cad-end-observacoes').value || null,
+                tipoEndereco: 'AMBOS'
+            },
+            cartao: null
         };
 
+        const numeroCartao = document.getElementById('cad-cartao-numero').value;
+        if (numeroCartao) {
+            dados.cartao = {
+                numero: numeroCartao,
+                nomeImpresso: document.getElementById('cad-cartao-nome').value,
+                validade: document.getElementById('cad-cartao-validade').value,
+                bandeira: document.getElementById('cad-cartao-bandeira').value,
+                codigoSeguranca: document.getElementById('cad-cartao-cvv').value,
+                preferencial: true
+            };
+        }
+
         try {
-            const resposta = await fetch('http://localhost:8080/api/clientes', {
+            const resposta = await fetch(`${API_BASE}/clientes`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dados)
             });
 
             if (resposta.status === 201) {
-                alert('Conta criada com sucesso! [RF-01 atendido]');
+                const cliente = await resposta.json();
+                clienteId = cliente.id;
+                localStorage.setItem('clienteId', clienteId);
+                alert('Conta criada com sucesso! [RF0021 atendido]');
                 switchView('cliente');
                 document.getElementById('form-cadastro').reset();
             } else {
@@ -278,48 +852,229 @@
         }
     }
 
+    async function carregarDadosCliente() {
+        const id = document.getElementById('edit-id').value = clienteId || 1;
+        try {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}`);
+            if (!resposta.ok) return;
+            const cliente = await resposta.json();
+            document.getElementById('edit-nome').value = cliente.nome || '';
+            document.getElementById('edit-genero').value = cliente.genero || 'OUTRO';
+            document.getElementById('edit-data').value = cliente.dataNascimento || '';
+            document.getElementById('edit-tel-tipo').value = cliente.telefoneTipo || 'CELULAR';
+            document.getElementById('edit-tel-ddd').value = cliente.telefoneDdd || '';
+            document.getElementById('edit-tel-numero').value = cliente.telefoneNumero || '';
+            document.getElementById('edit-email').value = cliente.email || '';
+        } catch (error) {
+            console.error('Erro ao carregar dados do cliente:', error);
+        }
+    }
+
     async function atualizarCliente(event) {
         event.preventDefault();
-        const id = document.getElementById('edit-id').value || 1;
+        const id = document.getElementById('edit-id').value || clienteId || 1;
         const dados = {
             nome: document.getElementById('edit-nome').value,
+            genero: document.getElementById('edit-genero').value,
             dataNascimento: document.getElementById('edit-data').value,
-            email: document.getElementById('edit-email').value,
-            telefone: document.getElementById('edit-tel').value,
-            cpf: '12345678901'
+            telefoneTipo: document.getElementById('edit-tel-tipo').value,
+            telefoneDdd: document.getElementById('edit-tel-ddd').value,
+            telefoneNumero: document.getElementById('edit-tel-numero').value,
+            email: document.getElementById('edit-email').value
         };
 
         try {
-            const resposta = await fetch(`http://localhost:8080/api/clientes/${id}`, {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dados)
             });
             if (resposta.ok) {
-                alert('Dados alterados com sucesso! [RF-02 atendido]');
+                alert('Dados alterados com sucesso! [RF0022 atendido]');
                 switchView('cliente');
             } else {
-                alert('Erro ao atualizar dados.');
+                const err = await resposta.json().catch(() => ({}));
+                alert('Erro ao atualizar dados: ' + (err.message || ''));
             }
         } catch (e) {
             alert('Erro de conexão.');
         }
     }
 
-    async function inativarContaCliente(id = 1) {
+    async function alterarSenhaCliente(event) {
+        event.preventDefault();
+        const id = document.getElementById('edit-id').value || clienteId || 1;
+        const dados = {
+            novaSenha: document.getElementById('senha-nova').value,
+            confirmacaoSenha: document.getElementById('senha-confirmar').value
+        };
+
+        try {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}/senha`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+            if (resposta.status === 204) {
+                alert('Senha alterada com sucesso! [RF0028 atendido]');
+                document.getElementById('form-senha').reset();
+            } else {
+                const err = await resposta.json().catch(() => ({}));
+                alert('Erro ao alterar senha: ' + (err.message || ''));
+            }
+        } catch (e) {
+            alert('Erro de conexão.');
+        }
+    }
+
+    async function inativarContaCliente(id) {
+        id = id || clienteId || 1;
         if (!confirm('Deseja realmente inativar sua conta?')) return;
         try {
-            const resposta = await fetch(`http://localhost:8080/api/clientes/${id}/inativar`, {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}/inativar`, {
                 method: 'PATCH'
             });
             if (resposta.status === 204) {
-                alert('Conta inativada com sucesso! Histórico preservado (Soft Delete) [RN-03 atendido]');
+                alert('Conta inativada com sucesso! Histórico preservado (Soft Delete) [RF0023 atendido]');
                 switchView('loja');
             } else {
                 alert('Erro ao inativar conta.');
             }
         } catch (e) {
             alert('Erro ao inativar conta.');
+        }
+    }
+
+    async function carregarEnderecos() {
+        const id = clienteId || 1;
+        try {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}/enderecos`);
+            if (!resposta.ok) return;
+            const enderecos = await resposta.json();
+            const corpo = document.getElementById('corpo-lista-enderecos');
+            corpo.innerHTML = '';
+            enderecos.forEach(e => {
+                const linha = document.createElement('tr');
+                linha.className = 'endereco-item border-b border-slate-800';
+                const complemento = e.complemento ? ` - ${e.complemento}` : '';
+                linha.innerHTML = `<td class="p-2">${e.nome}</td><td class="p-2">${e.logradouro}, ${e.numero}${complemento} - ${e.bairro}, ${e.cidade}/${e.estado}</td><td class="p-2">${e.tipoEndereco}</td>`;
+                corpo.appendChild(linha);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar endereços:', error);
+        }
+    }
+
+    async function adicionarEndereco(event) {
+        event.preventDefault();
+        const id = clienteId || 1;
+        const dados = {
+            nome: document.getElementById('end-nome').value,
+            logradouro: document.getElementById('end-logradouro').value,
+            numero: document.getElementById('end-numero').value,
+            complemento: document.getElementById('end-complemento').value || null,
+            bairro: document.getElementById('end-bairro').value,
+            cep: document.getElementById('end-cep').value,
+            cidade: document.getElementById('end-cidade').value,
+            estado: document.getElementById('end-estado').value,
+            pais: document.getElementById('end-pais').value,
+            observacoes: document.getElementById('end-observacoes').value || null,
+            tipoEndereco: document.getElementById('end-tipo').value
+        };
+
+        try {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}/enderecos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+            if (resposta.status === 201) {
+                alert('Endereço adicionado com sucesso! [RF0026 atendido]');
+                document.getElementById('form-endereco').reset();
+                document.getElementById('end-pais').value = 'Brasil';
+                carregarEnderecos();
+            } else {
+                const err = await resposta.json().catch(() => ({}));
+                alert('Erro ao adicionar endereço: ' + (err.message || ''));
+            }
+        } catch (e) {
+            alert('Erro de conexão.');
+        }
+    }
+
+    async function carregarCartoes() {
+        const id = clienteId || 1;
+        try {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}/cartoes`);
+            if (!resposta.ok) return;
+            const cartoes = await resposta.json();
+            const corpo = document.getElementById('corpo-lista-cartoes');
+            corpo.innerHTML = '';
+            cartoes.forEach(c => {
+                const linha = document.createElement('tr');
+                linha.className = 'cartao-item border-b border-slate-800';
+                linha.innerHTML = `<td class="p-2">${c.numeroMascarado}</td><td class="p-2">${c.nomeImpresso}</td><td class="p-2">${c.validade}</td><td class="p-2">${c.bandeira}</td><td class="p-2">${c.preferencial ? 'Sim' : 'Não'}</td>`;
+                corpo.appendChild(linha);
+            });
+        } catch (error) {
+            console.error('Erro ao carregar cartões:', error);
+        }
+    }
+
+    async function adicionarCartao(event) {
+        event.preventDefault();
+        const id = clienteId || 1;
+        const dados = {
+            numero: document.getElementById('cartao-numero').value,
+            nomeImpresso: document.getElementById('cartao-nome').value,
+            validade: document.getElementById('cartao-validade').value,
+            bandeira: document.getElementById('cartao-bandeira').value,
+            codigoSeguranca: document.getElementById('cartao-cvv').value,
+            preferencial: document.getElementById('cartao-preferencial').checked
+        };
+
+        try {
+            const resposta = await fetch(`${API_BASE}/clientes/${id}/cartoes`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            });
+            if (resposta.status === 201) {
+                alert('Cartão adicionado com sucesso! [RF0027 atendido]');
+                document.getElementById('form-cartao').reset();
+                carregarCartoes();
+            } else {
+                const err = await resposta.json().catch(() => ({}));
+                alert('Erro ao adicionar cartão: ' + (err.message || ''));
+            }
+        } catch (e) {
+            alert('Erro de conexão.');
+        }
+    }
+
+    async function buscarClientes(event) {
+        event.preventDefault();
+        const params = new URLSearchParams();
+        const nome = document.getElementById('busca-nome').value;
+        const cpf = document.getElementById('busca-cpf').value;
+        const email = document.getElementById('busca-email').value;
+        if (nome) params.append('nome', nome);
+        if (cpf) params.append('cpf', cpf);
+        if (email) params.append('email', email);
+
+        try {
+            const resposta = await fetch(`${API_BASE}/clientes?${params.toString()}`);
+            const clientes = await resposta.json();
+            const corpo = document.getElementById('corpo-resultado-busca');
+            corpo.innerHTML = '';
+            clientes.forEach(c => {
+                const linha = document.createElement('tr');
+                linha.className = 'resultado-busca-item border-b border-slate-800';
+                linha.innerHTML = `<td class="p-2">${c.id}</td><td class="p-2">${c.nome}</td><td class="p-2">${c.cpf}</td><td class="p-2">${c.email}</td><td class="p-2">${c.ativo ? 'Ativo' : 'Inativo'}</td>`;
+                corpo.appendChild(linha);
+            });
+        } catch (error) {
+            console.error('Erro ao buscar clientes:', error);
         }
     }
 </script>
