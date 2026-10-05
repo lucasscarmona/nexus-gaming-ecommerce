@@ -1,7 +1,3 @@
-// Suite de testes automatizados de interface do CRUD de Cliente.
-// Os IDs entre colchetes no título de cada teste são os IDs reais do
-// DRS_LES_1_2026.pdf (grupo "Cadastro de Clientes") que aquele teste valida.
-
 describe('DRS_LES_1_2026 - Modulo de Gestao de Clientes (CRUD completo)', () => {
     const baseUrl = 'http://localhost:8080';
 

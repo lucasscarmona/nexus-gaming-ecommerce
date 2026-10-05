@@ -1,17 +1,10 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Dependências instaladas pelo npm (reinstaláveis com `npm install`)
+node_modules/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Artefatos do Cypress
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
 
 ### IntelliJ IDEA ###
 .idea
@@ -19,18 +12,5 @@ target/
 *.iml
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
 ### VS Code ###
 .vscode/
-
-### Node ###
-node_modules/
