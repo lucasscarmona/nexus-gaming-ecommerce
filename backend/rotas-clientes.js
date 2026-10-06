@@ -67,6 +67,10 @@ function respostaDeEndereco(linha) {
     return {
         id: linha.id,
         nome: linha.nome,
+        // RN0023 - tipo de residencia e tipo de logradouro fazem parte da
+        // composicao obrigatoria do endereco.
+        tipoResidencia: linha.tipo_residencia,
+        tipoLogradouro: linha.tipo_logradouro,
         logradouro: linha.logradouro,
         numero: linha.numero,
         complemento: linha.complemento,
@@ -121,10 +125,11 @@ async function montarClientes(linhasDeClientes) {
     // "= ANY($1)" e o jeito do Postgres de dizer "onde cliente_id esta nesta
     // lista de ids", passando a lista como um unico parametro.
     const enderecos = await consultar(
-        `SELECT id, cliente_id, nome, logradouro, numero, complemento, bairro,
-                cep, cidade, estado, pais, observacoes, tipo_endereco
+        `SELECT id, cliente_id, nome, tipo_residencia, tipo_logradouro, logradouro,
+                numero, complemento, bairro, cep, cidade, estado, pais,
+                observacoes, tipo_endereco
            FROM tb_endereco
-          WHERE cliente_id = ANY($1)
+          WHERE cliente_id = ANY($1) AND salvo_no_perfil = TRUE
           ORDER BY id`,
         [ids]
     );
@@ -137,7 +142,7 @@ async function montarClientes(linhasDeClientes) {
                 c.preferencial, b.nome AS bandeira
            FROM tb_cartao_credito c
            JOIN tb_bandeira b ON b.id = c.bandeira_id
-          WHERE c.cliente_id = ANY($1)
+          WHERE c.cliente_id = ANY($1) AND c.salvo_no_perfil = TRUE
           ORDER BY c.id`,
         [ids]
     );
@@ -270,10 +275,12 @@ rotas.post('/', async (requisicao, resposta) => {
 
         await conexao.query(
             `INSERT INTO tb_endereco
-                 (cliente_id, nome, logradouro, numero, complemento, bairro, cep,
-                  cidade, estado, pais, observacoes, tipo_endereco)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
-            [clienteId, dados.endereco.nome, dados.endereco.logradouro, dados.endereco.numero,
+                 (cliente_id, nome, tipo_residencia, tipo_logradouro, logradouro,
+                  numero, complemento, bairro, cep, cidade, estado, pais,
+                  observacoes, tipo_endereco)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
+            [clienteId, dados.endereco.nome, dados.endereco.tipoResidencia,
+             dados.endereco.tipoLogradouro, dados.endereco.logradouro, dados.endereco.numero,
              dados.endereco.complemento || null, dados.endereco.bairro, dados.endereco.cep,
              dados.endereco.cidade, dados.endereco.estado, dados.endereco.pais,
              dados.endereco.observacoes || null, tipoEndereco]
@@ -480,13 +487,16 @@ rotas.post('/:id/enderecos', async (requisicao, resposta) => {
 
     const inseridos = await consultar(
         `INSERT INTO tb_endereco
-             (cliente_id, nome, logradouro, numero, complemento, bairro, cep,
-              cidade, estado, pais, observacoes, tipo_endereco)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
-         RETURNING id, nome, logradouro, numero, complemento, bairro, cep,
-                   cidade, estado, pais, observacoes, tipo_endereco`,
-        [id, dados.nome, dados.logradouro, dados.numero, dados.complemento || null,
-         dados.bairro, dados.cep, dados.cidade, dados.estado, dados.pais,
+             (cliente_id, nome, tipo_residencia, tipo_logradouro, logradouro,
+              numero, complemento, bairro, cep, cidade, estado, pais,
+              observacoes, tipo_endereco)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+         RETURNING id, nome, tipo_residencia, tipo_logradouro, logradouro, numero,
+                   complemento, bairro, cep, cidade, estado, pais, observacoes,
+                   tipo_endereco`,
+        [id, dados.nome, dados.tipoResidencia, dados.tipoLogradouro, dados.logradouro,
+         dados.numero, dados.complemento || null, dados.bairro, dados.cep,
+         dados.cidade, dados.estado, dados.pais,
          dados.observacoes || null, dados.tipoEndereco || 'AMBOS']
     );
 
@@ -506,10 +516,11 @@ rotas.get('/:id/enderecos', async (requisicao, resposta) => {
     await exigirCliente(id);
 
     const enderecos = await consultar(
-        `SELECT id, nome, logradouro, numero, complemento, bairro, cep,
-                cidade, estado, pais, observacoes, tipo_endereco
+        `SELECT id, nome, tipo_residencia, tipo_logradouro, logradouro, numero,
+                complemento, bairro, cep, cidade, estado, pais, observacoes,
+                tipo_endereco
            FROM tb_endereco
-          WHERE cliente_id = $1
+          WHERE cliente_id = $1 AND salvo_no_perfil = TRUE
           ORDER BY id`,
         [id]
     );
@@ -535,14 +546,17 @@ rotas.put('/:id/enderecos/:enderecoId', async (requisicao, resposta) => {
     // ja estava gravado em vez de apagar a informacao.
     const alterados = await consultar(
         `UPDATE tb_endereco
-            SET nome = $1, logradouro = $2, numero = $3, complemento = $4,
-                bairro = $5, cep = $6, cidade = $7, estado = $8, pais = $9,
-                observacoes = $10, tipo_endereco = COALESCE($11::varchar, tipo_endereco)
-          WHERE id = $12 AND cliente_id = $13
-      RETURNING id, nome, logradouro, numero, complemento, bairro, cep,
-                cidade, estado, pais, observacoes, tipo_endereco`,
-        [dados.nome, dados.logradouro, dados.numero, dados.complemento || null,
-         dados.bairro, dados.cep, dados.cidade, dados.estado, dados.pais,
+            SET nome = $1, tipo_residencia = $2, tipo_logradouro = $3,
+                logradouro = $4, numero = $5, complemento = $6, bairro = $7,
+                cep = $8, cidade = $9, estado = $10, pais = $11,
+                observacoes = $12, tipo_endereco = COALESCE($13::varchar, tipo_endereco)
+          WHERE id = $14 AND cliente_id = $15
+      RETURNING id, nome, tipo_residencia, tipo_logradouro, logradouro, numero,
+                complemento, bairro, cep, cidade, estado, pais, observacoes,
+                tipo_endereco`,
+        [dados.nome, dados.tipoResidencia, dados.tipoLogradouro, dados.logradouro,
+         dados.numero, dados.complemento || null, dados.bairro, dados.cep,
+         dados.cidade, dados.estado, dados.pais,
          dados.observacoes || null, dados.tipoEndereco || null,
          enderecoId, clienteId]
     );
@@ -569,8 +583,10 @@ rotas.post('/:id/cartoes', async (requisicao, resposta) => {
     // O primeiro cartao do cliente e sempre o preferencial: alguem precisa ser
     // o escolhido por padrao na hora da compra. A partir do segundo, quem
     // decide e o cliente, pela caixa de selecao da tela.
+    // Só contam os cartões do perfil: um cartão usado numa compra avulsa, sem
+    // ser guardado (salvo_no_perfil = FALSE), não disputa a preferência.
     const cartoesAtuais = await consultar(
-        'SELECT id FROM tb_cartao_credito WHERE cliente_id = $1',
+        'SELECT id FROM tb_cartao_credito WHERE cliente_id = $1 AND salvo_no_perfil = TRUE',
         [id]
     );
     const sejaPreferencial = cartoesAtuais.length === 0 || dados.preferencial === true;
@@ -582,7 +598,7 @@ rotas.post('/:id/cartoes', async (requisicao, resposta) => {
     // a marca antes do novo entrar.
     if (sejaPreferencial) {
         await consultar(
-            'UPDATE tb_cartao_credito SET preferencial = FALSE WHERE cliente_id = $1',
+            'UPDATE tb_cartao_credito SET preferencial = FALSE WHERE cliente_id = $1 AND salvo_no_perfil = TRUE',
             [id]
         );
     }
@@ -621,7 +637,7 @@ rotas.get('/:id/cartoes', async (requisicao, resposta) => {
                 b.nome AS bandeira
            FROM tb_cartao_credito c
            JOIN tb_bandeira b ON b.id = c.bandeira_id
-          WHERE c.cliente_id = $1
+          WHERE c.cliente_id = $1 AND c.salvo_no_perfil = TRUE
           ORDER BY c.id`,
         [id]
     );

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 58 400 204" width="400" height="204" role="img">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.85" r="0.55">
+      <stop offset="0" stop-color="#22c55e" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#fundo)"/>
+  <ellipse cx="200" cy="248" rx="150" ry="38" fill="url(#halo)"/>
+  <g>
+    <rect x="72" y="68" width="256" height="152" rx="10" fill="#334155" stroke="#64748b" stroke-width="2"/>
+    <rect x="82" y="78" width="236" height="126" rx="4" fill="#020617"/>
+    <polyline points="98,186 134,160 170,172 206,128 242,146 278,104 302,118"
+              fill="none" stroke="#22c55e" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M98 186 L134 160 L170 172 L206 128 L242 146 L278 104 L302 118 L302 196 L98 196 Z"
+          fill="#22c55e" opacity="0.12"/>
+    <rect x="186" y="220" width="28" height="26" fill="#475569"/>
+    <rect x="148" y="244" width="104" height="10" rx="5" fill="#64748b"/>
+    <circle cx="200" cy="212" r="3" fill="#a855f7"/>
+  </g>
+</svg>

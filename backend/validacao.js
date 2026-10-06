@@ -18,6 +18,12 @@ const GENEROS = ['MASCULINO', 'FEMININO', 'OUTRO'];
 const TIPOS_DE_TELEFONE = ['RESIDENCIAL', 'COMERCIAL', 'CELULAR'];
 const TIPOS_DE_ENDERECO = ['COBRANCA', 'ENTREGA', 'AMBOS'];
 
+// RN0023 - a composicao obrigatoria do endereco inclui tipo de residencia e
+// tipo de logradouro. Sao listas fechadas porque o requisito as descreve como
+// classificacoes ("Casa, Apartamento, etc"), nao como texto livre.
+const TIPOS_DE_RESIDENCIA = ['CASA', 'APARTAMENTO', 'CONDOMINIO', 'CHACARA', 'OUTRO'];
+const TIPOS_DE_LOGRADOURO = ['RUA', 'AVENIDA', 'TRAVESSA', 'ALAMEDA', 'PRACA', 'RODOVIA', 'ESTRADA', 'OUTRO'];
+
 // RNF0031 - minimo 8 caracteres, com minuscula, maiuscula e caractere especial.
 // E a mesma expressao do backend antigo, mantida caractere por caractere.
 // Lendo por partes: (?=.*[a-z]) exige que em algum lugar exista uma minuscula,
@@ -125,6 +131,23 @@ function errosDeEndereco(endereco) {
 
     const erros = [];
     if (vazio(endereco.nome)) erros.push('A identificação do endereço é obrigatória.');
+
+    // RN0023 - tipo de residencia e tipo de logradouro fazem parte da composicao
+    // obrigatoria. Sao exigidos aqui, e nao no banco, porque os enderecos
+    // cadastrados na fase anterior nao os possuem: a coluna precisa aceitar NULL
+    // para nao invalidar o que ja existe, mas endereco novo nao passa sem eles.
+    if (vazio(endereco.tipoResidencia)) {
+        erros.push('O tipo de residência é obrigatório.');
+    } else if (!TIPOS_DE_RESIDENCIA.includes(endereco.tipoResidencia)) {
+        erros.push('O tipo de residência deve ser um destes: ' + TIPOS_DE_RESIDENCIA.join(', ') + '.');
+    }
+
+    if (vazio(endereco.tipoLogradouro)) {
+        erros.push('O tipo de logradouro é obrigatório.');
+    } else if (!TIPOS_DE_LOGRADOURO.includes(endereco.tipoLogradouro)) {
+        erros.push('O tipo de logradouro deve ser um destes: ' + TIPOS_DE_LOGRADOURO.join(', ') + '.');
+    }
+
     if (vazio(endereco.logradouro)) erros.push('O logradouro é obrigatório.');
     if (vazio(endereco.numero)) erros.push('O número é obrigatório.');
     if (vazio(endereco.bairro)) erros.push('O bairro é obrigatório.');
@@ -222,11 +245,110 @@ function validarCartao(dados) {
     reprovar(errosDeCartao(dados || {}));
 }
 
+// =============================================================================
+// FASE 2 - carrinho e criacao de pedido
+//
+// Aqui so se valida o FORMATO do que chegou (campo faltando, numero negativo,
+// escolha incoerente). As regras de pagamento -- RN0033 (um cupom promocional),
+// RN0034 (minimo por cartao), RN0035 (cartao abaixo de R$ 10,00) e RN0036
+// (cupom de troca) -- ficam no rotas-pedidos.js, porque dependem do valor da
+// compra e dos cupons que o cliente realmente possui.
+// =============================================================================
+
+/** Numero inteiro maior que zero -- usado para ids e quantidades. */
+function inteiroPositivo(valor) {
+    return Number.isInteger(Number(valor)) && Number(valor) > 0;
+}
+
+/** RF0031 / RF0032 - item adicionado ou alterado no carrinho. */
+function validarItemDeCarrinho(dados) {
+    const erros = [];
+    if (!inteiroPositivo(dados.produtoId)) erros.push('O produto é obrigatório.');
+    if (!inteiroPositivo(dados.quantidade)) erros.push('A quantidade deve ser um número inteiro maior que zero.');
+    reprovar(erros);
+}
+
+/** RF0032 - alteracao de quantidade na visualizacao do carrinho. */
+function validarQuantidade(dados) {
+    const erros = [];
+    if (!inteiroPositivo(dados.quantidade)) erros.push('A quantidade deve ser um número inteiro maior que zero.');
+    reprovar(erros);
+}
+
+/**
+ * RF0033 / RF0035 / RF0036 - formato do pedido de finalizacao da compra.
+ *
+ * Formato esperado:
+ *   {
+ *     enderecoId: 5,                        // OU novoEndereco, nunca os dois
+ *     novoEndereco: { ...RN0023... },
+ *     salvarEnderecoNoPerfil: true,
+ *     cupons: ['PROMO40-A'],                // codigos, pode ser lista vazia
+ *     cartoes: [                            // pode ser lista vazia se os cupons
+ *       { cartaoId: 3, valor: 500.00 },     // cobrirem o total
+ *       { novoCartao: { ...RN0024... }, salvarNoPerfil: true, valor: 399.00 }
+ *     ]
+ *   }
+ */
+function validarFinalizacaoDeCompra(dados) {
+    const erros = [];
+
+    // RF0035 - ou escolhe um endereco do perfil, ou cadastra um novo na hora.
+    // Mandar os dois seria ambiguo: nao daria para saber onde entregar.
+    const temEnderecoExistente = !vazio(dados.enderecoId);
+    const temEnderecoNovo = !!dados.novoEndereco;
+    if (temEnderecoExistente && temEnderecoNovo) {
+        erros.push('Informe um endereço já cadastrado ou um novo endereço, não os dois.');
+    } else if (!temEnderecoExistente && !temEnderecoNovo) {
+        erros.push('É obrigatório informar o endereço de entrega.');
+    } else if (temEnderecoExistente && !inteiroPositivo(dados.enderecoId)) {
+        erros.push('Endereço de entrega inválido.');
+    } else if (temEnderecoNovo) {
+        // RN0023 vale igual para o endereco cadastrado durante a compra.
+        erros.push(...errosDeEndereco(dados.novoEndereco));
+    }
+
+    const cupons = dados.cupons || [];
+    if (!Array.isArray(cupons)) erros.push('A lista de cupons é inválida.');
+
+    const cartoes = dados.cartoes || [];
+    if (!Array.isArray(cartoes)) {
+        erros.push('A lista de cartões é inválida.');
+    } else {
+        cartoes.forEach((pagamento, posicao) => {
+            const ordem = 'No cartão ' + (posicao + 1) + ': ';
+            const temCartaoExistente = !vazio(pagamento.cartaoId);
+            const temCartaoNovo = !!pagamento.novoCartao;
+
+            // RF0036 - mesma logica do endereco: ou um cartao do perfil, ou um novo.
+            if (temCartaoExistente && temCartaoNovo) {
+                erros.push(ordem + 'informe um cartão já cadastrado ou um novo, não os dois.');
+            } else if (!temCartaoExistente && !temCartaoNovo) {
+                erros.push(ordem + 'é obrigatório informar o cartão.');
+            } else if (temCartaoExistente && !inteiroPositivo(pagamento.cartaoId)) {
+                erros.push(ordem + 'cartão inválido.');
+            } else if (temCartaoNovo) {
+                // RN0024 / RN0025 valem igual para o cartao cadastrado na compra.
+                erros.push(...errosDeCartao(pagamento.novoCartao).map((e) => ordem + e));
+            }
+
+            if (!(Number(pagamento.valor) > 0)) {
+                erros.push(ordem + 'o valor pago deve ser maior que zero.');
+            }
+        });
+    }
+
+    reprovar(erros);
+}
+
 module.exports = {
     erroDeRegra,
     validarCadastroDeCliente,
     validarAlteracaoDeCliente,
     validarNovaSenha,
     validarEndereco,
-    validarCartao
+    validarCartao,
+    validarItemDeCarrinho,
+    validarQuantidade,
+    validarFinalizacaoDeCompra
 };

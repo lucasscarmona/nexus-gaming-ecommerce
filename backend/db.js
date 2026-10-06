@@ -18,6 +18,15 @@ const pg = require('pg');
 // aspas, e nao {"id": 42} como o backend antigo devolvia.
 pg.types.setTypeParser(pg.types.builtins.INT8, (valor) => Number(valor));
 
+// Mesma historia com NUMERIC, que e o tipo das colunas de dinheiro (preco,
+// frete, total). O driver devolve texto para nao perder precisao em numeros
+// gigantes. Convertemos para numero para o JSON sair como 899.00 e nao "899.00".
+//
+// Isso NAO significa fazer conta de dinheiro com ponto flutuante: as somas e
+// comparacoes de valores acontecem em centavos (numeros inteiros). Ver o
+// dinheiro.js, que explica o porque.
+pg.types.setTypeParser(pg.types.builtins.NUMERIC, (valor) => Number(valor));
+
 // Um "pool" e um conjunto de conexoes que ficam abertas e sao reaproveitadas.
 // Abrir uma conexao nova a cada requisicao custaria uns 20ms de handshake com
 // o banco; reaproveitando, esse custo e pago uma vez so.

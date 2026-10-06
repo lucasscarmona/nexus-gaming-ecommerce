@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 58 400 204" width="400" height="204" role="img">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.85" r="0.55">
+      <stop offset="0" stop-color="#22c55e" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#fundo)"/>
+  <ellipse cx="200" cy="248" rx="150" ry="38" fill="url(#halo)"/>
+  <g>
+    <path d="M200 98 C158 98 142 142 142 182 C142 216 166 240 200 240 C234 240 258 216 258 182 C258 142 242 98 200 98 Z"
+          fill="#334155" stroke="#64748b" stroke-width="2"/>
+    <path d="M200 98 C178 98 164 120 158 150 L200 150 Z" fill="#3f4e63"/>
+    <path d="M200 98 C222 98 236 120 242 150 L200 150 Z" fill="#3f4e63"/>
+    <line x1="200" y1="100" x2="200" y2="150" stroke="#64748b" stroke-width="2"/>
+    <rect x="193" y="118" width="14" height="30" rx="7" fill="#22c55e"/>
+    <ellipse cx="200" cy="200" rx="34" ry="8" fill="#a855f7" opacity="0.45"/>
+    <circle cx="200" cy="175" r="4" fill="#94a3b8"/>
+  </g>
+</svg>

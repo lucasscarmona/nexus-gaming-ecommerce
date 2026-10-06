@@ -20,6 +20,11 @@ const path = require('path');
 const { prepararBanco } = require('./db');
 const rotasClientes = require('./rotas-clientes');
 const rotasBandeiras = require('./rotas-bandeiras');
+const rotasProdutos = require('./rotas-produtos');
+const rotasPedidos = require('./rotas-pedidos');
+// O rotas-carrinho exporta duas coisas (o router e a leitura do carrinho, que o
+// rotas-pedidos reaproveita), por isso aqui pegamos so a parte .rotas.
+const rotasCarrinho = require('./rotas-carrinho').rotas;
 
 // 8080 e a porta que o front-end e os testes do Cypress esperam.
 const PORTA = 8080;
@@ -43,7 +48,7 @@ app.use(express.json());
 // do servidor que a chamada e permitida. Estes cabecalhos sao essa permissao.
 app.use((requisicao, resposta, proximo) => {
     resposta.setHeader('Access-Control-Allow-Origin', '*');
-    resposta.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, OPTIONS');
+    resposta.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     resposta.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     // Antes de um PUT ou PATCH com JSON, o navegador manda um OPTIONS para
@@ -68,12 +73,19 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // -----------------------------------------------------------------------------
 // 3. As rotas da API
 //
-// Sao duas familias, e so. Cada prefixo abaixo aponta para um arquivo:
+// Cada prefixo abaixo aponta para um arquivo:
 //   /api/clientes  -> rotas-clientes.js   (cadastro, alteracao, inativacao...)
-//   /api/bandeiras -> rotas-bandeiras.js  (lista de bandeiras, so leitura)
+//   /api/bandeiras -> rotas-bandeiras.js  (bandeiras de cartao, so leitura)
+//   /api/produtos  -> rotas-produtos.js   (catalogo da loja, so leitura)
+//   /api/carrinho  -> rotas-carrinho.js   (RF0031/RF0032)
+//   /api/pedidos   -> rotas-pedidos.js    (RF0033 a RF0038: frete, pagamento,
+//                                          finalizacao e consulta de pedidos)
 // -----------------------------------------------------------------------------
 app.use('/api/clientes', rotasClientes);
 app.use('/api/bandeiras', rotasBandeiras);
+app.use('/api/produtos', rotasProdutos);
+app.use('/api/carrinho', rotasCarrinho);
+app.use('/api/pedidos', rotasPedidos);
 
 // -----------------------------------------------------------------------------
 // 4. Tratamento de erros, num unico lugar

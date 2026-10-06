@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 58 400 204" width="400" height="204" role="img">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.85" r="0.55">
+      <stop offset="0" stop-color="#22c55e" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#fundo)"/>
+  <ellipse cx="200" cy="248" rx="150" ry="38" fill="url(#halo)"/>
+  <g>
+    <path d="M56 206 L142 136 L344 136 L258 206 Z" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+    <path d="M56 206 L56 218 L258 218 L258 206 Z" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <path d="M258 206 L344 136 L344 148 L258 218 Z" fill="#111c33" stroke="#334155" stroke-width="1"/>
+    <path d="M68 202 L148 143 L332 143 L252 202 Z" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <g opacity="0.75">
+      <circle cx="198" cy="171" r="15" fill="none" stroke="#22c55e" stroke-width="2.5"/>
+      <path d="M190 171 L198 162 L206 171 L198 180 Z" fill="#22c55e"/>
+    </g>
+  </g>
+</svg>

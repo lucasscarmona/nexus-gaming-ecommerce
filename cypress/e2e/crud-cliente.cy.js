@@ -26,7 +26,12 @@ describe('DRS_LES_1_2026 - Modulo de Gestao de Clientes (CRUD completo)', () => 
             confirmacaoSenha: 'Senha@123',
             endereco: {
                 nome: 'Casa',
-                logradouro: 'Rua das Flores',
+                // RN0023 - tipo de residência e tipo de logradouro passaram a
+                // fazer parte da composição obrigatória do endereço na fase de
+                // criação de pedido. Quem cria cliente pela API precisa enviá-los.
+                tipoResidencia: 'CASA',
+                tipoLogradouro: 'RUA',
+                logradouro: 'das Flores',
                 numero: '123',
                 bairro: 'Centro',
                 cep: '01234-567',
